@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/johnamdickson/weeps-seeps-fugitive-emissions-web/issues"
   },
-  "homepage": "https://github.com/johnamdickson/weeps-seeps-fugitive-emissions-web#readme"
+  "homepage": "https://github.com/johnamdickson/weeps-seeps-fugitive-emissions-web#readme",
+  "dependencies": {
+    "firebase": "^11.6.1"
+  }
 }
