@@ -1,11 +1,9 @@
 
-# <img src=""  width="40" height="40">  &nbsp;Weeps, Seeps and Fugitive Emissions Web
+# <img src=""  width="40" height="40">  &nbsp;Weeps, Seeps and Fugitive Emissions for Web
 
-Little Woolly Snuggles is a business-to-consumer e-commerce website, selling hand crafted crocheted goods along with a learning environment for individuals to learn how to crochet themselves.
 
-This site is my Portfolio Project 5 submission showcasing full stack frameworks, search engine optimisation and web marketing skills. 
 
-The deployed website can be found at this [link.](https://little-woolly-snuggles-4b258af9630a.herokuapp.com/)
+The deployed website can be found at this [link.](/)
 
 ![Responsive Mockup Screenshot](documentation/README-files/am-i-responsive.png)
 
@@ -62,7 +60,7 @@ The following goals were identified for the project:
 
 #### Agile Methodology
 
-The project followed an Agile Project Management approach, completing ** epics consisting of various user stories. These stories were categorized using MoSCoW prioritization, labeled in GitHub as *Must Have*, *Should Have*, *Could Have*, and *Won't Have*. Each user story was assigned a timebox value using the Fibonacci Sequence. Throughout the project, sprints were conducted, selecting user stories with a timebox value of no more than 8 per sprint. Epics, user stories, and bugs were tracked and visualized using GitHub's Project Kanban board feature, accessible [here.]()
+The project followed an Agile Project Management approach, completing ** epics consisting of various user stories. These stories were categorized using MoSCoW prioritization, labeled in GitHub as *Must Have*, *Should Have*, *Could Have*, and *Won't Have*. Each user story was assigned a timebox value using the Fibonacci Sequence. Throughout the project, sprints were conducted, selecting user stories with a timebox value of no more than  per sprint. Epics, user stories, and bugs were tracked and visualized using GitHub's Project Kanban board feature, accessible [here.]()
 
 
 #### User Stories
@@ -180,38 +178,38 @@ Each of the user stories were broken down into tasks and acceptance criteria whi
 <table>
 <tr>
 <td width=10%>
-  <img src="documentation/README-files/products-icon.png" >
+  <img src="" >
 </td>
 <td>
-Products Icon. Used when all products are on display.
+.
 </td>
 <td width=10%>
-  <img src="documentation/README-files/learn-icon.png" >
+  <img src="" >
 </td>
 <td>
-Learn Icon. Used when the Learn to Crochet products are displayed.
+.
 </td>
 </tr>
 <tr>
 <td width=10%>
-  <img src="documentation/README-files/blanket-icon.png" >
+  <img src="" >
 </td>
 <td>
-Blankets Icon. Used when Blankets products are on display.
+
 </td>
 <td width=10%>
-  <img src="documentation/README-files/gift-set-icon.png" >
+  <img src="" >
 </td>
 <td>
-Learn Icon. Used when the Learn to Crochet products are displayed.
+
 </td>
 </tr>
 <tr>
 <td width=10%>
-  <img src="documentation/README-files/hats-icon.png" >
+  <img src="" >
 </td>
 <td>
-Hats Icon. Used when Hats products are displayed.
+
 </td>
 <td width=10%>
 </td>
@@ -223,7 +221,7 @@ Hats Icon. Used when Hats products are displayed.
 #### Logo
 The site logo consists of <br><br>
       <p align="center">
-        <img src="media/logo-transparent-background.webp"  width="200" height="200"> 
+        <img src=""  width="200" height="200"> 
       </p>
 
 #### Typography
@@ -234,19 +232,16 @@ The fonts used in the project were sourced from Google Fonts open source offerin
 ## Features 
 
 ### Security Features
-- There are a number of features utilsed in the app to ensure the security of private information. :
-  - 
+There are a number of features utilsed in the app to ensure the security of private information:
+ 
 
 ### Existing Features
 - __PLACEHOLDER__
     ![]()
 
-    
-
-
 ### Features Left to Implement
 A number of features were considered at the outset of and during the project but were shelved due to time constraints. These are detailed briefly below:
-- 
+
 
 <a href="#contents">BACK TO CONTENTS 🔼</a>
 
@@ -270,6 +265,7 @@ A number of features were considered at the outset of and during the project but
 
 
 <br><a href="#contents">BACK TO CONTENTS 🔼</a>
+
 ## Testing 
 Testing information can be found [here.](TESTING.md)
 
