@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebase'; // Make sure this is the correct import for your Firebase config
+import './LoginModal.css';
 
 const LoginModal = ({ show, onHide }) => {
   const [email, setEmail] = useState('');
@@ -27,7 +28,7 @@ const LoginModal = ({ show, onHide }) => {
   };
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} centered animation="true" className="login-modal">
       <Modal.Header closeButton>
         <Modal.Title>Login</Modal.Title>
       </Modal.Header>
@@ -41,6 +42,7 @@ const LoginModal = ({ show, onHide }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoFocus
             />
           </Form.Group>
 
@@ -54,7 +56,10 @@ const LoginModal = ({ show, onHide }) => {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">Login</Button>
+          <Button variant="primary" type="submit" className="btn-login">
+            <span class="material-symbols-outlined">input</span>
+            Login
+            </Button>
         </Form>
       </Modal.Body>
     </Modal>
