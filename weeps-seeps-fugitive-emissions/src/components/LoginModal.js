@@ -1,63 +1,60 @@
-// src/components/LoginModal.js
-import React, { useState } from "react";
-import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { signIn } from "../features/auth/authService"; // Adjust path as needed
+import React, { useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebase'; // Make sure this is the correct import for your Firebase config
 
-const LoginModal = ({ show, onHide }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+const LoginModal = ({ show, handleClose }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess(false);
 
     try {
-      await signIn(email, password);
-      setSuccess(true);
-      onHide(); // Close modal on success
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log("✅ Login successful:", user);
+      // Optionally log additional details, such as the user's UID or email
+      console.log("User ID:", user.uid);
+      console.log("User Email:", user.email);
+
+      handleClose();  // Close the modal on successful login
     } catch (err) {
-      setError(err.message);
+      setError(err.message);  // Store the error message for UI display
+      console.error("❌ Login failed:", err.code, err.message);  // Log detailed error information
     }
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered>
+    <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Login to Firebase</Modal.Title>
+        <Modal.Title>Login</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {error && <Alert variant="danger">{error}</Alert>}
-        {success && <Alert variant="success">Logged in successfully!</Alert>}
-
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formEmail" className="mb-3">
+        {error && <p className="text-danger">{error}</p>}
+        <Form onSubmit={handleLogin}>
+          <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </Form.Group>
 
-          <Form.Group controlId="formPassword" className="mb-3">
+          <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Login
-          </Button>
+          <Button variant="primary" type="submit">Login</Button>
         </Form>
       </Modal.Body>
     </Modal>

@@ -1,16 +1,16 @@
-// src/App.js
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import React, { useState } from 'react';
+import { Container, Button } from 'react-bootstrap';
+import LoginModal from './components/LoginModal';
 
 function App() {
+  const [showLogin, setShowLogin] = useState(false);
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        
-      </Routes>
-    </Router>
+    <Container className="p-3">
+      <h1>Welcome</h1>
+      <Button onClick={() => setShowLogin(true)}>Log In</Button>
+      <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} />
+    </Container>
   );
 }
 
