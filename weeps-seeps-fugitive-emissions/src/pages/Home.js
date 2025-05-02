@@ -5,6 +5,7 @@ import LoginModal from "../components/LoginModal";
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
+  
 
   return (
     <Container className="text-center mt-5">

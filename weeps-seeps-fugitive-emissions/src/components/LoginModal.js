@@ -3,7 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebase'; // Make sure this is the correct import for your Firebase config
 
-const LoginModal = ({ show, handleClose }) => {
+const LoginModal = ({ show, onHide }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,7 +19,7 @@ const LoginModal = ({ show, handleClose }) => {
       console.log("User ID:", user.uid);
       console.log("User Email:", user.email);
 
-      handleClose();  // Close the modal on successful login
+      onHide();  // Close the modal on successful login
     } catch (err) {
       setError(err.message);  // Store the error message for UI display
       console.error("❌ Login failed:", err.code, err.message);  // Log detailed error information
@@ -27,7 +27,7 @@ const LoginModal = ({ show, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title>Login</Modal.Title>
       </Modal.Header>

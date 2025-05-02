@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { Container, Button } from 'react-bootstrap';
-import LoginModal from './components/LoginModal';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import { AuthProvider } from './contexts/AuthContext'; 
 
 function App() {
-  const [showLogin, setShowLogin] = useState(false);
-
   return (
-    <Container className="p-3">
-      <h1>Welcome</h1>
-      <Button onClick={() => setShowLogin(true)}>Log In</Button>
-      <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} />
-    </Container>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* other routes */}
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
