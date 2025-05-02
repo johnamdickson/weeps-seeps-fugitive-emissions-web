@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/johnamdickson/weeps-seeps-fugitive-emissions-web#readme",
   "dependencies": {
-    "firebase": "^11.6.1"
+    "bootstrap": "^5.3.5",
+    "firebase": "^11.6.1",
+    "react-bootstrap": "^2.10.9"
   }
 }
