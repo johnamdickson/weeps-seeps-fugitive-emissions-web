@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Alert } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import LoginModal from "../components/LoginModal";
 import { getAuth, onAuthStateChanged, getIdTokenResult, signOut } from "firebase/auth";
+import { useToast } from "../contexts/ToastContext";
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -10,7 +11,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [userDetails, setUserDetails] = useState(null);
-  const [logoutMessage, setLogoutMessage] = useState('');
+  const { showToast } = useToast();
 
   useEffect(() => {
     const auth = getAuth();
@@ -57,11 +58,11 @@ const Home = () => {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        setLogoutMessage("You have been logged out successfully.");
-        setTimeout(() => setLogoutMessage(""), 3000);
+        showToast("Thank you for using the Weeps, Seeps and Fugitive Emissions Monitoring Tool.", "success", "Logout Successful");
       })
       .catch((error) => {
         console.error("Error signing out:", error);
+        showToast("Logout failed. Please try again.", "danger");
       });
   };
 
@@ -69,12 +70,6 @@ const Home = () => {
     <Container className="text-center mt-5 text-white">
       <h1>Welcome to Weeps, Seeps & Fugitive Emissions</h1>
       <p>{userDetails ? "You're logged in!" : "Please log in to continue"}</p>
-
-      {logoutMessage && (
-        <Alert variant="success" className="mt-3">
-          {logoutMessage}
-        </Alert>
-      )}
 
       {!userDetails && (
         <Button variant="primary" onClick={() => setShowLogin(true)}>
