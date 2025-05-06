@@ -1,9 +1,21 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Button, Spinner, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const AdminPage = () => {
   const { isAdmin, isSuperuser, loading } = useAuth();
+  const [showRedirectAlert, setShowRedirectAlert] = useState(false); // State for redirect alert
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAdmin && !isSuperuser) {
+      setShowRedirectAlert(true); // Show redirect alert if no permissions
+      setTimeout(() => {
+        navigate("/"); // Redirect to home page after 5 seconds
+      }, 5000);
+    }
+  }, [isAdmin, isSuperuser, navigate]);
 
   if (loading) {
     return (
@@ -14,11 +26,19 @@ const AdminPage = () => {
     );
   }
 
+  console.log('isAdmin:', isAdmin);  // Debugging
+  console.log('isSuperuser:', isSuperuser);  // Debugging
+  console.log('loading:', loading);  // Debugging
+
   if (!isAdmin && !isSuperuser) {
     return (
       <Container className="text-center mt-5">
-        <h2>Access Denied</h2>
-        <p>You do not have permission to access this page.</p>
+        {showRedirectAlert && (
+          <Alert variant="warning" dismissible>
+            <Alert.Heading>Permission Denied</Alert.Heading>
+            <p>You do not have the necessary permissions. Redirecting...</p>
+          </Alert>
+        )}
       </Container>
     );
   }
