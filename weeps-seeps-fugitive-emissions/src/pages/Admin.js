@@ -9,13 +9,14 @@ const AdminPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAdmin && !isSuperuser) {
+    // If the user is not admin or superuser and data is loaded
+    if (!loading && !isAdmin && !isSuperuser) {
       setShowRedirectAlert(true); // Show redirect alert if no permissions
       setTimeout(() => {
-        navigate("/"); // Redirect to home page after 5 seconds
-      }, 5000);
+        navigate("/"); // Redirect to home page after 6 seconds
+      }, 6000);
     }
-  }, [isAdmin, isSuperuser, navigate]);
+  }, [isAdmin, isSuperuser, loading, navigate]);
 
   if (loading) {
     return (
@@ -36,7 +37,9 @@ const AdminPage = () => {
         {showRedirectAlert && (
           <Alert variant="warning" dismissible>
             <Alert.Heading>Permission Denied</Alert.Heading>
-            <p>You do not have the necessary permissions. Redirecting...</p>
+            <p>You do not have the necessary permissions.</p>
+            <p> Redirecting    <Spinner animation="grow" size="sm" />
+            </p>
           </Alert>
         )}
       </Container>
