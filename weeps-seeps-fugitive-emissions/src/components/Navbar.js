@@ -39,7 +39,8 @@ const AppNavbar = () => {
   return (
 <Navbar
   expand={false}
-  className={`${isHovered ? "navbar-dark bg-custom" : "navbar-light"}`}
+  className={`${isHovered ? "navbar-dark bg-custom" : "navbar-dark"}`}
+  data-bs-theme="dark"
   onMouseEnter={handleMouseEnter}
   onMouseLeave={handleMouseLeave}
 >  <Container fluid >
@@ -50,7 +51,6 @@ const AppNavbar = () => {
       <Navbar.Toggle
         aria-controls="offcanvasNavbar"
         onClick={handleShow}
-        className={`custom-toggler ${isHovered ? "toggler-dark" : "toggler-white"}`}
       />
     </div>
 
@@ -59,7 +59,6 @@ const AppNavbar = () => {
     <Navbar.Brand
   as={Link}
   to="/"
-  className={`navbar-brand ${isHovered ? "text-white" : "text-dark"}`}
 >
   Weeps, Seeps & Fugitive Emissions
 </Navbar.Brand>
@@ -82,7 +81,7 @@ const AppNavbar = () => {
         </InputGroup>
       </Form>
       <div
-        className={`user-icon ${isHovered ? "text-white" : "text-dark"} d-flex`}
+        className={"text-white text-dark"}
         style={{ fontSize: "1.4rem", cursor: "pointer" }}
       >
         <span className="material-icons">account_circle</span>
