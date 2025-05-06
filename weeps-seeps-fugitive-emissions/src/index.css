@@ -4,6 +4,8 @@ body {
   font-weight: 200;
   font-style: normal;
   font-variation-settings: "wdth" 100;
-  background: url('../images/background.jpg') no-repeat center center/cover;
+  height: 100vh;
   color: white;
+  background-image: url('../images/background.jpg') ; 
+  background-size: cover;
 }
