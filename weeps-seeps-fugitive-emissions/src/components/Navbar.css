@@ -37,6 +37,11 @@
   font-size: 25px;
 }
 
+.input-transition {
+  transition: background-color 1s ease, color 0.75s ease;
+}
+
+
 @media (min-width: 576px) {
   .navbar-brand {
     font-size: 1.6rem;

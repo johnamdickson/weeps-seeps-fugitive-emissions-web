@@ -40,7 +40,7 @@ const AppNavbar = () => {
 <Navbar
   expand={false}
   className={`${isHovered ? "navbar-dark bg-custom" : "navbar-dark"}`}
-  data-bs-theme="dark"
+  data-bs-theme={isHovered ? "light" : "dark"}
   onMouseEnter={handleMouseEnter}
   onMouseLeave={handleMouseLeave}
 >  <Container fluid >
@@ -65,7 +65,7 @@ const AppNavbar = () => {
     </div>
 
     {/* Right: Search + User Icon */}
-    <div className="d-flex align-items-center gap-3">
+    <div className="d-flex align-items-center gap-3 input-transition">
       <Form className="d-flex" onSubmit={handleSearch}>
         <InputGroup>
           <FormControl
@@ -74,14 +74,15 @@ const AppNavbar = () => {
             aria-label="Search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="input-transition"
           />
-          <InputGroup.Text style={{ cursor: "pointer" }} onClick={handleSearch}>
+          <InputGroup.Text style={{ cursor: "pointer" }} onClick={handleSearch} className="input-transition">
             <span className="material-icons search-icon">search</span>
           </InputGroup.Text>
         </InputGroup>
       </Form>
       <div
-        className={"text-white text-dark"}
+        className={"text-white text-dark d-flex"}
         style={{ fontSize: "1.4rem", cursor: "pointer" }}
       >
         <span className="material-icons">account_circle</span>
