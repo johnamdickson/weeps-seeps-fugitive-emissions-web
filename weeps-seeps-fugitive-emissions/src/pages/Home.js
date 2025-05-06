@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Alert } from "react-bootstrap";
 import LoginModal from "../components/LoginModal";
-import { getAuth, onAuthStateChanged, getIdTokenResult } from "firebase/auth";
+import { getAuth, onAuthStateChanged, getIdTokenResult, signOut } from "firebase/auth";
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -10,6 +10,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [userDetails, setUserDetails] = useState(null);
+  const [logoutMessage, setLogoutMessage] = useState('');
 
   useEffect(() => {
     const auth = getAuth();
@@ -22,7 +23,6 @@ const Home = () => {
           displayName: user.displayName,
         });
 
-        // Force token refresh to get latest custom claims
         user.getIdToken(true)
           .then(() => getIdTokenResult(user))
           .then((idTokenResult) => {
@@ -32,11 +32,7 @@ const Home = () => {
             setIsAdmin(!!claims.admin);
             setIsSuperuser(!!claims.superuser);
 
-            if (claims.admin) {
-              setMessage('You are an admin!');
-            } else {
-              setMessage('You are not an admin.');
-            }
+            setMessage(claims.admin ? 'You are an admin!' : 'You are not an admin.');
           })
           .catch((error) => {
             console.error('Error fetching ID token result:', error);
@@ -57,14 +53,40 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
-  return (
-    <Container className="text-center mt-5">
-      <h1>Welcome to Weeps, Seeps & Fugitive Emissions</h1>
-      <p>Please log in to continue</p>
+  const handleLogout = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        setLogoutMessage("You have been logged out successfully.");
+        setTimeout(() => setLogoutMessage(""), 3000);
+      })
+      .catch((error) => {
+        console.error("Error signing out:", error);
+      });
+  };
 
-      <Button variant="primary" onClick={() => setShowLogin(true)}>
-        Login
-      </Button>
+  return (
+    <Container className="text-center mt-5 text-white">
+      <h1>Welcome to Weeps, Seeps & Fugitive Emissions</h1>
+      <p>{userDetails ? "You're logged in!" : "Please log in to continue"}</p>
+
+      {logoutMessage && (
+        <Alert variant="success" className="mt-3">
+          {logoutMessage}
+        </Alert>
+      )}
+
+      {!userDetails && (
+        <Button variant="primary" onClick={() => setShowLogin(true)}>
+          Login
+        </Button>
+      )}
+
+      {userDetails && (
+        <Button variant="danger" onClick={handleLogout}>
+          Logout
+        </Button>
+      )}
 
       <LoginModal show={showLogin} onHide={() => setShowLogin(false)} />
 

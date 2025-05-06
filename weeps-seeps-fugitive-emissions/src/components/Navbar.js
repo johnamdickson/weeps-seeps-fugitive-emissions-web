@@ -1,32 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Navbar, Nav, Container, Offcanvas, Form, FormControl, Button, InputGroup } from "react-bootstrap";
+// components/AppNavbar.js
+import React, { useState } from "react";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Offcanvas,
+  Form,
+  FormControl,
+  InputGroup,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import './Navbar.css';
+import { useAuth } from "../contexts/AuthContext";
+import "./Navbar.css";
 
 const AppNavbar = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { user, isAdmin } = useAuth();
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const tokenResult = await user.getIdTokenResult();
-        setIsAdmin(!!tokenResult.claims.admin);
-      } else {
-        setIsAdmin(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
   const handleClose = () => setShowOffcanvas(false);
   const handleShow = () => setShowOffcanvas(true);
-
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
 
@@ -37,67 +31,67 @@ const AppNavbar = () => {
   };
 
   return (
-<Navbar
-  expand={false}
-  className={`${isHovered ? "navbar-dark bg-custom" : "navbar-dark"}`}
-  data-bs-theme={isHovered ? "light" : "dark"}
-  onMouseEnter={handleMouseEnter}
-  onMouseLeave={handleMouseLeave}
->  <Container fluid >
-  <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100 py-2 px-1">
+    <Navbar
+      expand={false}
+      className={`${isHovered ? "navbar-dark bg-custom" : "navbar-dark"}`}
+      data-bs-theme={isHovered ? "light" : "dark"}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Container fluid>
+        <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100 py-2 px-1">
+          {/* Left: Burger Menu */}
+          <div className="mb-2 mb-sm-1">
+            <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={handleShow} />
+          </div>
 
-    {/* Left: Burger Menu */}
-    <div className="mb-2 mb-sm-1">
-      <Navbar.Toggle
-        aria-controls="offcanvasNavbar"
-        onClick={handleShow}
-      />
-    </div>
+          {/* Center: Brand */}
+          <div className="text-center flex-grow-1 mb-2 mb-sm-1">
+            <Navbar.Brand as={Link} to="/">
+              Weeps, Seeps & Fugitive Emissions
+            </Navbar.Brand>
+          </div>
 
-    {/* Center: Brand */}
-    <div className="text-center flex-grow-1 mb-2 mb-sm-1">
-    <Navbar.Brand
-  as={Link}
-  to="/"
->
-  Weeps, Seeps & Fugitive Emissions
-</Navbar.Brand>
-    </div>
+          {/* Right: Search + User Icon */}
+          <div className="d-flex align-items-center gap-3 input-transition">
+            <Form className="d-flex" onSubmit={handleSearch}>
+              <InputGroup>
+                <FormControl
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="input-transition"
+                />
+                <InputGroup.Text
+                  style={{ cursor: "pointer" }}
+                  onClick={handleSearch}
+                  className="input-transition"
+                >
+                  <span className="material-icons search-icon">search</span>
+                </InputGroup.Text>
+              </InputGroup>
+            </Form>
+            {user && (
+              <div
+                className="text-white text-dark d-flex"
+                style={{ fontSize: "1.4rem", cursor: "pointer" }}
+              >
+                <span className="material-icons">account_circle</span>
+              </div>
+            )}
+          </div>
+        </div>
 
-    {/* Right: Search + User Icon */}
-    <div className="d-flex align-items-center gap-3 input-transition">
-      <Form className="d-flex" onSubmit={handleSearch}>
-        <InputGroup>
-          <FormControl
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="input-transition"
-          />
-          <InputGroup.Text style={{ cursor: "pointer" }} onClick={handleSearch} className="input-transition">
-            <span className="material-icons search-icon">search</span>
-          </InputGroup.Text>
-        </InputGroup>
-      </Form>
-      <div
-        className={"text-white text-dark d-flex"}
-        style={{ fontSize: "1.4rem", cursor: "pointer" }}
-      >
-        <span className="material-icons">account_circle</span>
-      </div>
-    </div>
-
-  </div>
-
-  <Navbar.Offcanvas
+        {/* Offcanvas Menu */}
+        <Navbar.Offcanvas
           show={showOffcanvas}
           onHide={handleClose}
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
           placement="start"
-          className="bg-dark text-light" 
+          className="bg-dark text-light"
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id="offcanvasNavbarLabel">Menu</Offcanvas.Title>
@@ -115,11 +109,8 @@ const AppNavbar = () => {
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
-</Container>
-
-</Navbar>
-
-
+      </Container>
+    </Navbar>
   );
 };
 
