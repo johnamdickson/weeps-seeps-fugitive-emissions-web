@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import './Admin.css';
 
 const AdminPage = () => {
   const { isAdmin, isSuperuser, loading } = useAuth();
@@ -49,25 +50,25 @@ const AdminPage = () => {
   return (
     <Container className="mt-5">
       <h1 className="mb-4">Admin Dashboard</h1>
-      <Row xs={1} md={2} className="g-4">
+      <Row xs={1} md={2} className="g-4 p-3 justify-content-md-center">
         {/* Admin actions */}
         {isAdmin && (
           <>
-            <Col>
-              <Card>
+            <Col sm={12} md={6} lg={5} className="g-2 m-3">
+              <Card >
                 <Card.Body>
                   <Card.Title>Add New Emission</Card.Title>
                   <Card.Text>Open a form to log a new emission event.</Card.Text>
-                  <Button variant="primary">Add Emission</Button>
+                  <Button variant="primary">Add Emission <span class="material-icons m-2">add_circle</span></Button>
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
+            <Col sm={12} md={6} lg={5} className="g-2 m-3">
               <Card>
                 <Card.Body>
                   <Card.Title>Close Emission</Card.Title>
                   <Card.Text>Mark an existing emission as resolved.</Card.Text>
-                  <Button variant="danger">Close Emission</Button>
+                  <Button variant="danger">Close Emission <span class="material-icons m-2">cancel</span></Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -77,16 +78,16 @@ const AdminPage = () => {
         {/* Superuser-only actions */}
         {isSuperuser && (
           <>
-            <Col>
+            <Col sm={12} md={6} lg={5} className="g-2 m-3">
               <Card>
                 <Card.Body>
-                  <Card.Title>Create New User</Card.Title>
+                  <Card.Title>Create New User </Card.Title>
                   <Card.Text>Register a new user and assign roles.</Card.Text>
-                  <Button variant="success">Create User</Button>
+                  <Button variant="success">Create User </Button>
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
+            <Col sm={12} md={6} lg={5} className="g-2 m-3">
               <Card>
                 <Card.Body>
                   <Card.Title>Edit User</Card.Title>

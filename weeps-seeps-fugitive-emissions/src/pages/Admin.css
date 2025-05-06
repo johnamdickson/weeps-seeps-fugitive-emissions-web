@@ -1,0 +1,29 @@
+.card{
+    background-color: #ae0c00;
+    color: white;
+    height: 200px;
+}
+
+.card-title {
+    font-family: Roboto;
+    font-size: 1.5rem;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.btn {
+    margin: 0 25%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 20px;
+}
+
+.material-icons {
+font-size: 40px;
+}
+
