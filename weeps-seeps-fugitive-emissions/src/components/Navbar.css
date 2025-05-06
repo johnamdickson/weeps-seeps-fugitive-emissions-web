@@ -1,5 +1,12 @@
+.navbar {
+  min-height: 85px; 
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
 .bg-custom {
   background-color: #ae0c00 !important;  /* Background color */
+  transition: background-color 0.5s ease;
 }
 
 .navbar-toggler {
@@ -20,7 +27,36 @@
 .navbar-brand {
   font-family: "Roboto", sans-serif !important;
   font-optical-sizing: auto;
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   font-style: normal;
-  font-variation-settings: "wdth" 100;}
+  font-variation-settings: "wdth" 100;
+}
+
+.search-icon {
+  font-size: 25px;
+}
+
+@media (min-width: 576px) {
+  .navbar-brand {
+    font-size: 1.6rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-brand {
+    font-size: 1.9rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-brand {
+    font-size: 2.2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navbar-brand {
+    font-size: 2.5rem;
+  }
+}
