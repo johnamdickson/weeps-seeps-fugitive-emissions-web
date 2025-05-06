@@ -37,10 +37,17 @@
   font-size: 25px;
 }
 
+.success-icon {
+  font-size: 20px;
+}
+
 .input-transition {
   transition: background-color 1s ease, color 0.75s ease;
 }
 
+.dropdown-toggle::after {
+  display: none !important;
+}
 
 @media (min-width: 576px) {
   .navbar-brand {
