@@ -1,0 +1,18 @@
+.bg-custom {
+  background-color: #ae0c00 !important;  /* Background color */
+}
+
+.navbar-toggler {
+  border-color: transparent;
+}
+
+.navbar-toggler:hover {
+  border-color: inherit;
+  transition: border-color 0.3s ease;
+
+}
+
+.navbar-toggler:focus {
+  border-color: transparent;
+  display: none;
+}
