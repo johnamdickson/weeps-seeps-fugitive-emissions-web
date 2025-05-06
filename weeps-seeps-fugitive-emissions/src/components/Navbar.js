@@ -53,7 +53,9 @@ const AppNavbar = () => {
           </div>
 
           {/* Right: Search + User Icon */}
+          
           <div className="d-flex align-items-center gap-3 input-transition">
+          {user && (<>
             <Form className="d-flex" onSubmit={handleSearch}>
               <InputGroup>
                 <FormControl
@@ -73,13 +75,14 @@ const AppNavbar = () => {
                 </InputGroup.Text>
               </InputGroup>
             </Form>
-            {user && (
+           
               <div
                 className="text-white text-dark d-flex"
                 style={{ fontSize: "1.4rem", cursor: "pointer" }}
               >
                 <span className="material-icons">account_circle</span>
               </div>
+              </>
             )}
           </div>
         </div>
