@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged, getIdTokenResult } from "firebase/auth";
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperuser, setIsSuperuser] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [userDetails, setUserDetails] = useState(null);
@@ -21,13 +22,19 @@ const Home = () => {
           displayName: user.displayName,
         });
 
-        getIdTokenResult(user)
+        // Force token refresh to get latest custom claims
+        user.getIdToken(true)
+          .then(() => getIdTokenResult(user))
           .then((idTokenResult) => {
-            if (idTokenResult.claims.admin) {
-              setIsAdmin(true);
+            const claims = idTokenResult.claims;
+            console.log("Claims:", claims);
+
+            setIsAdmin(!!claims.admin);
+            setIsSuperuser(!!claims.superuser);
+
+            if (claims.admin) {
               setMessage('You are an admin!');
             } else {
-              setIsAdmin(false);
               setMessage('You are not an admin.');
             }
           })
@@ -40,13 +47,13 @@ const Home = () => {
           });
       } else {
         setIsAdmin(false);
+        setIsSuperuser(false);
         setMessage('No user logged in.');
         setUserDetails(null);
         setLoading(false);
       }
     });
 
-    // Cleanup subscription
     return () => unsubscribe();
   }, []);
 
@@ -54,25 +61,25 @@ const Home = () => {
     <Container className="text-center mt-5">
       <h1>Welcome to Weeps, Seeps & Fugitive Emissions</h1>
       <p>Please log in to continue</p>
-      
-      {/* Login Button */}
+
       <Button variant="primary" onClick={() => setShowLogin(true)}>
         Login
       </Button>
 
-      {/* Login Modal */}
       <LoginModal show={showLogin} onHide={() => setShowLogin(false)} />
 
-      {/* Admin Status Message */}
       <div className="mt-3">
         {loading ? (
           <p>Checking admin status...</p>
         ) : (
-          <p>{message}</p>
+          <>
+            <p>{message}</p>
+            {isAdmin && <p className="text-info">Admin privileges detected.</p>}
+            {isSuperuser && <p className="text-warning">Superuser privileges detected.</p>}
+          </>
         )}
       </div>
 
-      {/* User Details */}
       {userDetails && (
         <div className="mt-3">
           <h5>User Details:</h5>
