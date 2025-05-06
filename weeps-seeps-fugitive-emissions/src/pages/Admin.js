@@ -59,7 +59,7 @@ const AdminPage = () => {
                 <Card.Body>
                   <Card.Title>Add New Emission</Card.Title>
                   <Card.Text>Open a form to log a new emission event.</Card.Text>
-                  <Button variant="primary">Add Emission <span class="material-icons m-2">add_circle</span></Button>
+                  <Button variant="primary" className="btn-admin">Add Emission <span class="material-icons m-2">add_circle</span></Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -68,7 +68,7 @@ const AdminPage = () => {
                 <Card.Body>
                   <Card.Title>Close Emission</Card.Title>
                   <Card.Text>Mark an existing emission as resolved.</Card.Text>
-                  <Button variant="danger">Close Emission <span class="material-icons m-2">cancel</span></Button>
+                  <Button variant="danger" className="btn-admin">Close Emission <span class="material-icons m-2">cancel</span></Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -83,7 +83,7 @@ const AdminPage = () => {
                 <Card.Body>
                   <Card.Title>Create New User </Card.Title>
                   <Card.Text>Register a new user and assign roles.</Card.Text>
-                  <Button variant="success">Create User </Button>
+                  <Button variant="success" className="btn-admin">Create User </Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -92,7 +92,7 @@ const AdminPage = () => {
                 <Card.Body>
                   <Card.Title>Edit User</Card.Title>
                   <Card.Text>Edit details and roles of existing users.</Card.Text>
-                  <Button variant="warning">Edit User</Button>
+                  <Button variant="warning" className="btn-admin">Edit User</Button>
                 </Card.Body>
               </Card>
             </Col>
