@@ -16,3 +16,11 @@
   border-color: transparent;
   display: none;
 }
+
+.navbar-brand {
+  font-family: "Roboto", sans-serif !important;
+  font-optical-sizing: auto;
+  font-size: 2rem;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;}
