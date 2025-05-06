@@ -30,11 +30,9 @@ const AppNavbar = () => {
   // Handle hover events and log to the console
   const handleMouseEnter = () => {
     setIsHovered(true);
-    console.log("Mouse entered navbar!");
   };
   const handleMouseLeave = () => {
     setIsHovered(false);
-    console.log("Mouse left navbar!");
   };
 
   return (
@@ -52,7 +50,7 @@ const AppNavbar = () => {
           className={`navbar-brand ${isHovered ? "text-white" : "text-dark"}`} // Change text color on hover
           style={{ transition: "color 0.3s ease" }} // Add transition for text color
         >
-          Weeps & Seeps
+          Weeps, Seeps & Fugitive Emissions
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="offcanvasNavbar"
