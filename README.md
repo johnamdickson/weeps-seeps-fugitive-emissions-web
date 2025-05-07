@@ -1,15 +1,13 @@
 
-# <img src=""  width="40" height="40">  &nbsp;Weeps, Seeps and Fugitive Emissions for Web
-
-
+# <img src="" width="40" height="40">  &nbsp;Weeps, Seeps and Fugitive Emissions for Web
 
 The deployed website can be found at this [link.](/)
 
 ![Responsive Mockup Screenshot](documentation/README-files/am-i-responsive.png)
 
-## Contents
-<a name="contents"></a>
+---
 
+## Contents
 - [UX](#ux)
   - [Strategy](#strategy)
     - [Project Goals](#project-goals)
@@ -22,9 +20,9 @@ The deployed website can be found at this [link.](/)
   - [Structure](#structure)
     - [Data Storage](#data-storage)
     - [Search Engine Optimisation](#search-engine-optimisation)
-  - [Skeleton](#structure)
+  - [Skeleton](#skeleton)
     - [Wireframes](#wireframes)
-  - [Surface(Design)](#surface-design)
+  - [Surface (Design)](#surface-design)
     - [Colour Scheme](#colour-scheme)
     - [Mockups](#mockups)
     - [Imagery](#imagery)
@@ -40,7 +38,7 @@ The deployed website can be found at this [link.](/)
   - [Frameworks, Libraries & Programs Used](#frameworks-libraries--programs-used)
 - [Testing](#testing)
 - [Deployment](#deployment)
-    - [Integrated Development Environment](#integrated-development-environment)
+  - [Integrated Development Environment](#integrated-development-environment)
   - [Forking the GitHub Repository](#forking-the-github-repository)
   - [Making a Local Clone](#making-a-local-clone)
 - [Credits](#credits)
@@ -48,282 +46,171 @@ The deployed website can be found at this [link.](/)
   - [Media](#media)
   - [Acknowledgements](#acknowledgements)
 
+---
+
 ## UX
+
 ### Strategy
-The primary objective of this .
 
 #### Project Goals
+- Create a secure, intuitive web platform for documenting and monitoring weeps, seeps, and fugitive emissions.
+- Support authenticated users with personalized profiles and role-based access (Admin, Superuser, User).
+- Automatically log out users after inactivity while warning them in advance.
 
-The following goals were identified for the project:
-- .
-
+#### Marketing Strategy
+- Internal utility tool aimed at site inspectors, engineers, and emissions monitors.
+- Branding reflects professionalism, simplicity, and safety.
 
 #### Agile Methodology
-
-The project followed an Agile Project Management approach, completing ** epics consisting of various user stories. These stories were categorized using MoSCoW prioritization, labeled in GitHub as *Must Have*, *Should Have*, *Could Have*, and *Won't Have*. Each user story was assigned a timebox value using the Fibonacci Sequence. Throughout the project, sprints were conducted, selecting user stories with a timebox value of no more than  per sprint. Epics, user stories, and bugs were tracked and visualized using GitHub's Project Kanban board feature, accessible [here.]()
-
+The project followed Agile practices using GitHub Issues and Projects to manage epics and user stories with MoSCoW prioritization.
 
 #### User Stories
+Each user story was assigned timebox values using Fibonacci points and managed via a Kanban board. Example epics include:
+- Auth and Session Management
+- Profile and Avatar Handling
+- Admin Features
+- Toast Messaging System
 
-As stated, the user stories were collated into ** epics.
-<br>![user-story-breakdown]()<br><br>
-The total number of story points assigned to the user stories is ** of which the majority were in the category of  storypoints. 
-<br>![user-story-breakdown]()<br>
-
-Each of the user stories were broken down into tasks and acceptance criteria which can be reviewed on the project [kanban board]().
+---
 
 ### Scope
+
 #### Essential Content
-  - 
+- Login/logout via Firebase Auth
+- User profile modal with image upload
+- Auto-logout with countdown toast
+- Admin dashboard access control
 
 #### Optional Content
-  -
+- Search bar (currently front-end only)
+- Debug page for internal testing
+- UI enhancements via Bootstrap tooltips and modals
+
+---
 
 ### Structure
+
 #### Data Storage
-- .<br><br>
-![database schema]()
-- The front end utilises bootstrap and bespoke styling for a user friendly, designed approach. 
+- Firebase Auth stores user credentials.
+- Firestore holds role claims.
+- Firebase Storage manages avatar images.
+
 #### Search Engine Optimisation
-- A SEO study was completed and can be found [here.]()
-- A selection of short and long tail keywords were selected for use with the html head and body elements.
-- A sitemap.xml file was created using an online tool and added to the project root directory.
-- A robots.txt file was created and added to the project root directory.
+- A sitemap.xml and robots.txt exist in root.
+- Basic metadata and semantic HTML used.
+
+---
+
 ### Skeleton
+
 #### Wireframes
-- The desktop wireframes can be found [here.]()
-- The mobile and tablet wireframes can be found [here.]()
+- Can be found [here.]() *(add link)*
+
+---
+
 ### Surface (Design)
+
 #### Colour Scheme
-- The main theme colours for the site are . 
-- The main colours used were: 
-  *  <br><br>
-
-  <table>
-<tr>
-<td width=75%>
-  <img src="" >
-</td>
-<td>
-  <img src="" >
-</td>
-</tr>
-</table>
-
+- Base red: `#ae0c00`
+- Accent: muted greys, white text
 
 #### Mockups
-- The project mockups can be found [here.]()
+- See [mockups here.]() *(add link)*
 
 #### Imagery
-- Aside from individual product images, the following images were used on the site:<br><br>
-<table>
-<tr>
-<td width=66%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-</tr>
-<tr>
-<td width=66%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-</tr>
-<tr>
-<td width=66%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-</tr>
-<tr>
-<td width=66%>
-  <img src="" >
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td width=66%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-</tr>
-<tr>
-<td width=66%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-</tr>
-<td width=66%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-</tr>
-</table>
+- Placeholder avatar image in use when user has no profile picture
 
 #### Icons
-- Many of the icons used on site were sourced from Fontawesome. The icons used to depict the product and product categories are SVGs, the sources of which are in the credit section:<br><br>
-<table>
-<tr>
-<td width=10%>
-  <img src="" >
-</td>
-<td>
-.
-</td>
-<td width=10%>
-  <img src="" >
-</td>
-<td>
-.
-</td>
-</tr>
-<tr>
-<td width=10%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-<td width=10%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-</tr>
-<tr>
-<td width=10%>
-  <img src="" >
-</td>
-<td>
-
-</td>
-<td width=10%>
-</td>
-<td>
-</td>
-</tr>
-</table>
+- Material Icons used for login/logout, search, and avatar
 
 #### Logo
-The site logo consists of <br><br>
-      <p align="center">
-        <img src=""  width="200" height="200"> 
-      </p>
+- Placeholder logo. Add real one here:
+<p align="center">
+  <img src="" width="200" height="200">
+</p>
 
 #### Typography
-The fonts used in the project were sourced from Google Fonts open source offering and are described below:
--  <br><br>
-<a href="#contents">BACK TO CONTENTS 🔼</a>
+- Google Fonts: Roboto and Bootstrap system fonts
 
-## Features 
+---
+
+## Features
 
 ### Security Features
-There are a number of features utilsed in the app to ensure the security of private information:
- 
+- Firebase Auth with JWT tokens
+- Role-based access via custom claims
+- Session timeout auto-logout
+- Firestore/Storage access rules
 
 ### Existing Features
-- __PLACEHOLDER__
-    ![]()
+- 🔐 Login/logout system
+- 👤 Profile modal with avatar upload & delete
+- ⏱ Session warning toast with countdown and stay-logged-in action
+- 🛡 Role-based admin link
+- 🧪 Debug and search tools for developers
 
 ### Features Left to Implement
-A number of features were considered at the outset of and during the project but were shelved due to time constraints. These are detailed briefly below:
+-
 
-
-<a href="#contents">BACK TO CONTENTS 🔼</a>
+---
 
 ## Technologies Used
 
 ### Languages Used
-- **Javascript**: Used for front end functionality notably the Google Maps API, conditional formatting.
-- **HTML5**: Used for rendering the DOM.
-- **CSS3**: Used to apply custom styling where bootstrap did not extend to the project design requirements.
-- **Markdown**: Used exclusively for README and TESTING.<br>
+- **JavaScript**
+- **HTML5**
+- **CSS3**
+- **Markdown**
 
 ### Frameworks, Libraries & Programs Used
+- **React**
+- **React-Bootstrap**
+- **Firebase Auth, Firestore, Storage**
+- **React Router**
+- **Material Icons**
+- **Toast Context API**
 
-- **Bootstrap**: CSS framework for class based styling directly in the DOM.
+---
 
-- **json**: used to create json of instantiated model date for use in Javascript.
-- **Gitpod** cloud based IDE used for majority of the project.
-- **Git** used for version control.
-- **GitHub** as cloud repository for Git version control.
-- Any other libraries not explicitly mentioned here can be found in the [requirements.txt](requirements.txt) file.
+## Testing
+Testing details can be found [here.](TESTING.md)
 
-
-<br><a href="#contents">BACK TO CONTENTS 🔼</a>
-
-## Testing 
-Testing information can be found [here.](TESTING.md)
-
-<a href="#contents">BACK TO CONTENTS 🔼</a>
+---
 
 ## Deployment
 
-
-### Integrated Development Environment 
-
+### Integrated Development Environment
+- Gitpod
+- VS Code
 
 ### Forking the GitHub Repository
-
-By forking the GitHub Repository we make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original repository by using the following steps:
-
-1. Log in to GitHub and locate the [GitHub Repository.](https://github.com/johnamdickson/portfolio-project-3)
-2. At the top of the Repository (not top of page) just above the "Settings" Button on the menu, locate the "Fork" Button.
-3. You should now have a copy of the original repository in your GitHub account.
+1. Go to the [repo](https://github.com/johnamdickson/weeps-seeps-fugitive-emissions-web)
+2. Click Fork at the top right
+3. You now have your own copy
 
 ### Making a Local Clone
-
-1. Log in to GitHub and locate the [GitHub Repository.](https://github.com/johnamdickson/portfolio-project-3)
-2. Under the repository name, click "Clone or download".
-3. To clone the repository using HTTPS, under "Clone with HTTPS", copy the link.
-4. Open Git Bash
-5. Change the current working directory to the location where you want the cloned directory to be made.
-6. Type `git clone`, and then paste the URL you copied in Step 3.
-
-```
-$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+```bash
+git clone https://github.com/YOUR-USERNAME/weeps-seeps-fugitive-emissions-web.git
+cd weeps-seeps-fugitive-emissions-web
+npm install
+npm start
 ```
 
-7. Press Enter. Your local clone will be created.
-
-```
-$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
-> Cloning into `CI-Clone`...
-> remote: Counting objects: 10, done.
-> remote: Compressing objects: 100% (8/8), done.
-> remove: Total 10 (delta 1), reused 10 (delta 1)
-> Unpacking objects: 100% (10/10), done.
-```
-
-Click [here](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository#cloning-a-repository-to-github-desktop) to retrieve pictures for some of the buttons and more detailed explanations of the above process.<br><br>
-
-
-<a href="#contents">BACK TO CONTENTS 🔼</a>
+---
 
 ## Credits
-### Content 
-NOTE: Specific links are included within the Python, Javascript, HTML and CSS  files. The list below summarises content credits in general.
 
+### Content
+- Auth logic adapted from Firebase documentation
 
 ### Media
-- The site fonts were source from [Google Fonts.](https://fonts.google.com/)
-
-
+- Fonts: [Google Fonts](https://fonts.google.com/)
+- Icons: Material UI
 
 ### Acknowledgements
-  - <br><br>
+- Built by [@johnamdickson](https://github.com/johnamdickson)
+- UI inspired by modern dashboard layouts
+
+---
+
 <a href="#contents">BACK TO CONTENTS 🔼</a>
