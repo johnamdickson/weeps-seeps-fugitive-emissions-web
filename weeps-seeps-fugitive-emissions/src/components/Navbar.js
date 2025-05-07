@@ -21,7 +21,8 @@ import ProfileModal from "../components/ProfileModal";
 import placeholderImage from "../assets/avatar.jpg";
 import useAutoLogout from "../hooks/useAutoLogout";
 import SessionWarningToast from "../components/SessionWarningToast";
-
+import logoLight from "../assets/logo-light.png";
+import logoDark from "../assets/logo-dark.png";
 const AppNavbar = () => {
   const { user, isAdmin } = useAuth();
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ const AppNavbar = () => {
   return (
     <Navbar
       expand={false}
-      className="bg-custom"
+      className="bg-custom "
       data-bs-theme="dark"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -92,10 +93,46 @@ const AppNavbar = () => {
 
           {/* Brand */}
           <div className="text-center flex-grow-1 my-2">
-            <Navbar.Brand as={Link} to="/">
-              Weeps, Seeps & Fugitive Emissions
-            </Navbar.Brand>
-          </div>
+          <Navbar.Brand
+  as={Link}
+  to="/"
+  className="navbar-center-logo d-none d-md-block position-absolute top-50 start-50 translate-middle"
+>
+  <div className="logo-wrapper position-relative">
+    <img
+      src={logoDark}
+      alt="Weeps Seeps Logo Dark"
+      className={`navbar-logo position-absolute top-0 start-0 logo-dark ${
+        isHovered ? "logo-hidden" : "logo-visible"
+      }`}
+    />
+    <img
+      src={logoLight}
+      alt="Weeps Seeps Logo Light"
+      className={`navbar-logo position-absolute top-0 start-0 ${
+        isHovered ? "logo-visible" : "logo-hidden"
+      }`}
+    />
+  </div>
+</Navbar.Brand>
+
+
+<Navbar.Brand
+  as={Link}
+  to="/"
+  className="d-block d-md-none mx-auto"
+>
+  <img
+    src={logoLight}
+    alt="Weeps Seeps Logo"
+    height="50"
+    className="navbar-logo"
+  />
+</Navbar.Brand>
+
+
+
+</div>
 
           {/* Search & User */}
           <div className="d-flex align-items-center gap-3 input-transition">
