@@ -30,7 +30,7 @@ export const ToastProvider = ({ children }) => {
           bg={toast.variant}
           onClose={() => setToast((prev) => ({ ...prev, show: false }))}
           autohide
-          delay={3000}
+          delay={6000}
         >
           <Toast.Header>
             <strong className="me-auto">{toast.title}</strong>
