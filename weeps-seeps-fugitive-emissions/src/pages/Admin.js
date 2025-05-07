@@ -58,7 +58,7 @@ const AdminPage = () => {
             <Alert.Heading>Permission Denied</Alert.Heading>
             <p>You do not have the necessary permissions to access this part of the site.</p>
             <div
-              className="progress mt-3 w-50 mx-auto"
+              className="progress mt-3 w-25 mx-auto"
               style={{
                 height: '10px',
                 backgroundColor: '#f8d7da',
