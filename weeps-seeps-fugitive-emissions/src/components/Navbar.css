@@ -1,17 +1,24 @@
+/* ─────────────────────────────────────────────
+   Layout & Spacing
+────────────────────────────────────────────── */
 .navbar {
-  min-height: 85px; 
+  min-height: 85px;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
 
 .bg-custom {
-  background-color: #ae0c0040 !important;  /* Background color */
+  background-color: #ae0c0040 !important;
   transition: background-color 0.5s ease;
 }
 
 .bg-custom:hover {
-  background-color: #ae0c00 !important;  /* Background color */
+  background-color: #ae0c00 !important;
 }
+
+/* ─────────────────────────────────────────────
+   Burger Button
+────────────────────────────────────────────── */
 .navbar-toggler {
   border-color: transparent;
 }
@@ -19,7 +26,6 @@
 .navbar-toggler:hover {
   border-color: inherit;
   transition: border-color 0.3s ease;
-
 }
 
 .navbar-toggler:focus {
@@ -27,6 +33,9 @@
   display: none;
 }
 
+/* ─────────────────────────────────────────────
+   Brand Styling
+────────────────────────────────────────────── */
 .navbar-brand {
   font-family: "Roboto", sans-serif !important;
   font-optical-sizing: auto;
@@ -34,57 +43,6 @@
   font-weight: 500;
   font-style: normal;
   font-variation-settings: "wdth" 100;
-}
-
-.navbar .active,
-.dropdown-item.active {
-  background-color: rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 0 0.5rem rgba(255, 255, 255, 0.05);
-}
-
-.success-icon {
-  font-size: 20px
-}
-
-.search-icon {
-  font-size: 20px
-}
-
-.search-icon:hover, .user-icon:hover, .login-icon:hover {
-  transition: color 0.3s ease, transform 0.3s ease;
-  opacity: 0.95;
-  transform: scale(1.25);
-}
-
-/* Default state (non-hovered) */
-.search-default {
-  background-color: #1e1e1e;
-  color: #f8f9fa;
-  border: 1px solid #444;
-}
-
-/* Hovered navbar state */
-.search-hovered {
-  background-color: #ffffff;
-  color: #000;
-  border: 1px solid #ccc;
-}
-
-.search-default::placeholder {
-  color: #aaa;
-}
-
-.search-hovered::placeholder {
-  color: #666;
-}
-
-
-.input-transition {
-  transition: background-color 1s ease, color 0.75s ease;
-}
-
-.dropdown-toggle::after {
-  display: none !important;
 }
 
 @media (min-width: 576px) {
@@ -109,4 +67,105 @@
   .navbar-brand {
     font-size: 2.5rem;
   }
+}
+
+/* ─────────────────────────────────────────────
+   Avatar
+────────────────────────────────────────────── */
+.navbar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  transition: transform 0.2s ease;
+}
+
+.navbar-avatar:hover {
+  transform: scale(1.1);
+}
+
+/* ─────────────────────────────────────────────
+   Icons
+────────────────────────────────────────────── */
+.success-icon,
+.search-icon {
+  font-size: 20px;
+}
+
+.search-icon:hover,
+.user-icon:hover,
+.login-icon:hover {
+  transition: color 0.3s ease, transform 0.3s ease;
+  opacity: 0.95;
+  transform: scale(1.25);
+}
+
+/* ─────────────────────────────────────────────
+   Search Bar
+────────────────────────────────────────────── */
+.input-transition {
+  transition: background-color 1s ease, color 0.75s ease;
+}
+
+.search-default {
+  background-color: #1e1e1e;
+  color: #f8f9fa;
+  border: 1px solid #444;
+}
+
+.search-hovered {
+  background-color: #ffffff;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+.search-default::placeholder {
+  color: #aaa;
+}
+
+.search-hovered::placeholder {
+  color: #666;
+}
+
+/* ─────────────────────────────────────────────
+   Dropdown Styling
+────────────────────────────────────────────── */
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.dropdown-menu {
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navbar .active,
+.dropdown-item.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0.5rem rgba(255, 255, 255, 0.05);
+}
+
+/* ─────────────────────────────────────────────
+   Role Badges
+────────────────────────────────────────────── */
+.badge.bg-info {
+  background-color: #17a2b8 !important;
+  font-size: 0.65rem;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  font-size: 0.65rem;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+  font-size: 0.65rem;
 }
