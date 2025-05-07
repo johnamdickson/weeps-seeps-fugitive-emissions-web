@@ -10,27 +10,44 @@ export const ToastProvider = ({ children }) => {
     title: "Notification",
     message: "",
     variant: "success",
+    autohide: true,
+    delay: 5000,
   });
 
-  const showToast = (message, variant = "success", title = "Notification") => {
-    setToast({ show: true, title, message, variant });
+  const showToast = (
+    message,
+    variant = "success",
+    title = "Notification",
+    options = {} 
+  ) => {
+    setToast({
+      show: true,
+      title,
+      message,
+      variant,
+      autohide: options.autohide ?? true,
+      delay: options.delay ?? 5000,
+    });
+  };
 
-    // Auto-hide after 3 seconds
-    setTimeout(() => {
-      setToast((prev) => ({ ...prev, show: false }));
-    }, 3000);
+  const hideToast = () => {
+    setToast((prev) => ({ ...prev, show: false }));
+  };
+  
+  const handleClose = () => {
+    setToast((prev) => ({ ...prev, show: false }));
   };
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={{ showToast, hideToast }}>
       {children}
       <ToastContainer position="top-end" className="p-3" style={{ zIndex: 9999 }}>
         <Toast
           show={toast.show}
           bg={toast.variant}
-          onClose={() => setToast((prev) => ({ ...prev, show: false }))}
-          autohide
-          delay={6000}
+          onClose={handleClose}
+          autohide={toast.autohide}
+          delay={toast.delay}
         >
           <Toast.Header>
             <strong className="me-auto">{toast.title}</strong>

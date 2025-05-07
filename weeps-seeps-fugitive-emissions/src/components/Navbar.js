@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Navbar,
   Nav,
@@ -18,19 +18,29 @@ import "./Navbar.css";
 import { useToast } from "../contexts/ToastContext";
 import LoginModal from "../components/LoginModal";
 import ProfileModal from "../components/ProfileModal";
-import placeholderImage from "../assets/avatar.jpg"; // ✅ import fallback image
+import placeholderImage from "../assets/avatar.jpg";
+import useAutoLogout from "../hooks/useAutoLogout";
+import SessionWarningToast from "../components/SessionWarningToast";
 
 const AppNavbar = () => {
   const { user, isAdmin } = useAuth();
   const navigate = useNavigate();
-  const { showToast } = useToast();
+  const { showToast, hideToast } = useToast();
 
   const [showProfile, setShowProfile] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showLogin, setShowLogin] = useState(false);
-  const [avatarError, setAvatarError] = useState(false); // ✅ state to track image errors
+  const [avatarError, setAvatarError] = useState(false);
+
+  const { showWarning, stayLoggedIn, countdown } = useAutoLogout();
+
+  useEffect(() => {
+    if (showWarning && countdown === 0) {
+      hideToast(); // Dismiss toast when countdown hits zero
+    }
+  }, [showWarning, countdown, hideToast]);
 
   const handleShow = () => setShowOffcanvas(true);
   const handleClose = () => setShowOffcanvas(false);
@@ -75,7 +85,6 @@ const AppNavbar = () => {
     >
       <Container fluid>
         <div className="d-flex flex-column-reverse flex-md-row align-items-center justify-content-between w-100 py-2 px-1">
-
           {/* Burger Menu */}
           <div className="mb-2">
             <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={handleShow} />
@@ -92,7 +101,6 @@ const AppNavbar = () => {
           <div className="d-flex align-items-center gap-3 input-transition">
             {user ? (
               <>
-                {/* Search Input */}
                 <Form className="d-flex" onSubmit={handleSearch}>
                   <InputGroup>
                     <FormControl
@@ -113,7 +121,6 @@ const AppNavbar = () => {
                   </InputGroup>
                 </Form>
 
-                {/* Avatar with fallback, tooltip, and dropdown */}
                 <Dropdown align="end">
                   <Dropdown.Toggle
                     as="div"
@@ -127,13 +134,12 @@ const AppNavbar = () => {
                     >
                       <img
                         src={!avatarError && user.photoURL ? user.photoURL : placeholderImage}
-                        onError={() => setAvatarError(true)} // ✅ fallback trigger
+                        onError={() => setAvatarError(true)}
                         alt="avatar"
                         className="navbar-avatar"
                       />
                     </OverlayTrigger>
                   </Dropdown.Toggle>
-
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Header className="text-white">
                       {user.displayName && (
@@ -164,7 +170,7 @@ const AppNavbar = () => {
           </div>
         </div>
 
-        {/* Offcanvas Nav */}
+        {/* Offcanvas Navigation */}
         <Navbar.Offcanvas
           show={showOffcanvas}
           onHide={handleClose}
@@ -190,6 +196,14 @@ const AppNavbar = () => {
       {/* Modals */}
       <LoginModal show={showLogin} onHide={() => setShowLogin(false)} />
       <ProfileModal show={showProfile} onHide={() => setShowProfile(false)} />
+
+      {/* 🔔 Session Timeout Warning Toast */}
+      {showWarning && countdown > 0 && (
+        <SessionWarningToast
+          countdown={countdown}
+          onStayLoggedIn={stayLoggedIn}
+        />
+      )}
     </Navbar>
   );
 };
