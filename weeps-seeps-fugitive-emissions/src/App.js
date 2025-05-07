@@ -6,12 +6,15 @@ import Navbar from "./components/Navbar";
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext'; // ⬅️ Import ToastProvider
 import Debug from "./pages/Debug";
+import LoadingOverlay from "./components/LoadingOverlay";
+
 
 function App() {
   return (
     <AuthProvider>
-      <ToastProvider> {/* ⬅️ Wrap inside ToastProvider */}
+      <ToastProvider>
         <Router>
+        <LoadingOverlay/> 
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
