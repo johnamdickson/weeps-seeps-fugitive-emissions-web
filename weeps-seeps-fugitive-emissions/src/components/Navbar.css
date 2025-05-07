@@ -1,23 +1,36 @@
 /* ─────────────────────────────────────────────
-   Layout & Spacing
+   Global Layout & Spacing
 ────────────────────────────────────────────── */
+body {
+  margin: 0;
+}
+
 .navbar {
-  min-height: 85px;
+  min-height: 140px;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
 
+/* ─────────────────────────────────────────────
+   Navbar Background Styling
+────────────────────────────────────────────── */
 .bg-custom {
-  background-color: #ae0c0040 !important;
   transition: background-color 0.5s ease;
 }
 
 .bg-custom:hover {
-  background-color: #ae0c00 !important;
+  background: linear-gradient(180deg, #00000050 0%, transparent 100%) !important;
+}
+
+/* Optional animation (currently unused) */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ─────────────────────────────────────────────
-   Burger Button
+   Burger Button Styling
 ────────────────────────────────────────────── */
 .navbar-toggler {
   border-color: transparent;
@@ -34,43 +47,71 @@
 }
 
 /* ─────────────────────────────────────────────
-   Brand Styling
+   Brand (Text Logo) Styling
 ────────────────────────────────────────────── */
 .navbar-brand {
   font-family: "Roboto", sans-serif !important;
   font-optical-sizing: auto;
-  font-size: 1.4rem;
-  font-weight: 500;
   font-style: normal;
+  font-weight: 500;
   font-variation-settings: "wdth" 100;
+  font-size: 1.4rem;
 }
 
 @media (min-width: 576px) {
-  .navbar-brand {
-    font-size: 1.6rem;
-  }
+  .navbar-brand { font-size: 1.6rem; }
 }
-
 @media (min-width: 768px) {
-  .navbar-brand {
-    font-size: 1.9rem;
-  }
+  .navbar-brand { font-size: 1.9rem; }
 }
-
 @media (min-width: 992px) {
-  .navbar-brand {
-    font-size: 2.2rem;
-  }
+  .navbar-brand { font-size: 2.2rem; }
 }
-
 @media (min-width: 1024px) {
-  .navbar-brand {
-    font-size: 2.5rem;
-  }
+  .navbar-brand { font-size: 2.5rem; }
 }
 
 /* ─────────────────────────────────────────────
-   Avatar
+   Logo Image Fade Transition (Light/Dark)
+────────────────────────────────────────────── */
+.navbar-center-logo {
+  z-index: 1;
+  pointer-events: none; /* Prevent logo from intercepting clicks */
+}
+
+.logo-wrapper {
+  width: 100px;
+  height: 100px; /* Match your logo's height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-logo {
+  width: 100px;
+  height: auto;
+  transition: opacity 0.3s ease;
+  border-radius: 0.25rem;
+}
+
+.logo-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.logo-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.logo-dark {
+  border: 0.1px solid rgba(255, 255, 255, 0.253);
+}
+
+/* ─────────────────────────────────────────────
+   Avatar Styling
 ────────────────────────────────────────────── */
 .navbar-avatar {
   width: 36px;
@@ -86,7 +127,7 @@
 }
 
 /* ─────────────────────────────────────────────
-   Icons
+   Icon & Interactive Element Styling
 ────────────────────────────────────────────── */
 .toast-icon,
 .search-icon {
@@ -101,8 +142,12 @@
   transform: scale(1.25);
 }
 
+.icon-dark {
+  border: 1px solid white;
+}
+
 /* ─────────────────────────────────────────────
-   Search Bar
+   Search Bar Styling
 ────────────────────────────────────────────── */
 .input-transition {
   transition: background-color 1s ease, color 0.75s ease;
@@ -129,7 +174,7 @@
 }
 
 /* ─────────────────────────────────────────────
-   Dropdown Styling
+   Dropdown Menu Styling
 ────────────────────────────────────────────── */
 .dropdown-toggle::after {
   display: none !important;
@@ -153,7 +198,7 @@
 }
 
 /* ─────────────────────────────────────────────
-   Role Badges
+   User Role Badges
 ────────────────────────────────────────────── */
 .badge.bg-info {
   background-color: #17a2b8 !important;
