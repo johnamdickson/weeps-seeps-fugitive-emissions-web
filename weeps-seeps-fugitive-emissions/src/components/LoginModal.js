@@ -20,7 +20,7 @@ const LoginModal = ({ show, onHide }) => {
         "Welcome to the Weeps, Seeps and Fugitive Emissions Monitoring Tool.",
         "success",
         <>
-          <span className="material-icons success-icon me-3">thumb_up</span>
+          <span className="material-icons toast-icon me-3">thumb_up</span>
           Login Successful
         </>
       );
