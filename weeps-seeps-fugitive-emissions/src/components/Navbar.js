@@ -79,7 +79,7 @@ const AppNavbar = () => {
   return (
     <Navbar
       expand={false}
-      className="bg-custom align-items-start"
+      className="bg-custom"
       data-bs-theme="dark"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
