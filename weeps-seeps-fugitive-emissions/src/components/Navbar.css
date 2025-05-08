@@ -9,6 +9,8 @@ body {
   min-height: 140px;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  z-index: 1000;
+  border: 0.5px solid #ffffff50
 }
 
 /* ─────────────────────────────────────────────

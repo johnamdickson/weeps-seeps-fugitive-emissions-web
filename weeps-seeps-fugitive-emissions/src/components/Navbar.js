@@ -63,7 +63,7 @@ const AppNavbar = () => {
             "Thank you for using the Weeps, Seeps and Fugitive Emissions Monitoring Tool.",
             "success",
             <>
-              <span className="material-icons success-icon me-3">thumb_up</span>
+              <span className="material-icons toast-icon me-3">thumb_up</span>
               Logout Successful
             </>
           );
@@ -79,7 +79,7 @@ const AppNavbar = () => {
   return (
     <Navbar
       expand={false}
-      className="bg-custom "
+      className="bg-custom align-items-start"
       data-bs-theme="dark"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
