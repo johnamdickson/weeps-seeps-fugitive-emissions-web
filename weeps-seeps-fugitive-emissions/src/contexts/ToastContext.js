@@ -50,7 +50,7 @@ export const ToastProvider = ({ children }) => {
           delay={toast.delay}
         >
           <Toast.Header>
-            <strong className="me-auto">{toast.title}</strong>
+            <strong className="me-auto ">{toast.title}</strong>
           </Toast.Header>
           <Toast.Body className="text-white">{toast.message}</Toast.Body>
         </Toast>
