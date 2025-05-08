@@ -7,7 +7,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext'; // ⬅️ Import ToastProvider
 import Debug from "./pages/Debug";
 import LoadingOverlay from "./components/LoadingOverlay";
-
+import SessionInfoBar from "./components/SessionInfoBar";
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
         <Router>
         <LoadingOverlay/> 
           <Navbar />
+          <SessionInfoBar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/admin" element={<Admin />} />
