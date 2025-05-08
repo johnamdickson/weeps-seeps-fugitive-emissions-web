@@ -1,6 +1,6 @@
 /* Apply background color and white text to the modal */
 .login-modal .modal-content {
-    background-color: #ae0c00;  /* Background color */
+    background-color: #dc354599;  /* Background color */
     color: white;               /* White text */
   }
 
@@ -10,14 +10,14 @@
   
   /* Optional: Customize the modal header */
   .login-modal .modal-header {
-    background-color: #ae0c00;  /* Background color */
+    /* background-color: #dc354599;  Background color */
     color: white;               /* White text */
     border-bottom: 2px solid white;  /* Optional border for better visibility */
   }
   
   /* Optional: Customize the modal footer */
   .login-modal .modal-footer {
-    background-color: #ae0c00;  /* Background color */
+    background-color: #dc354599;  /* Background color */
     color: white;               /* White text */
     border-top: 2px solid white;  /* Optional border for better visibility */
   }
@@ -25,13 +25,13 @@
   /* Style buttons in the modal */
   .login-modal .modal-footer button {
     background-color: white;  /* Button background */
-    color: #ae0c00;           /* Button text color */
+    color: #dc354599;           /* Button text color */
     border: none;             /* Remove border */
   }
   
   .login-modal .modal-footer button:hover {
     background-color: #f1f1f1;  /* Slight hover effect */
-    color: #ae0c00;             /* Maintain button text color */
+    color: #dc354599;             /* Maintain button text color */
     
   }
   
@@ -42,7 +42,7 @@
   
 
   .login-modal .modal-header .btn-close:hover {
-    background-color:#ae0c00 !important;  /* Light gray background on hover */
+    background-color:#dc354599 !important;  /* Light gray background on hover */
     opacity: 0.7;
   }
 
@@ -54,7 +54,7 @@
 /* Style the Login button */
 .login-modal .modal-body .btn-login {
     background-color: rgb(255, 255, 255) !important;  /* White background */
-    color: #ae0c00 !important;           /* Vermilion red font color */
+    color: #dc354599 !important;           /* Vermilion red font color */
     border: 2px solid #b1473f !important;  /* Optional: Red border for the button */
     font-weight: bold;   
     font-size:1.2rem;               /* Optional: Make the text bold */
@@ -69,8 +69,8 @@
   /* Hover effect for the Login button */
   .login-modal .modal-body .btn-login:hover {
     background-color: #c9c4c4 !important;  /* Light gray background on hover */
-    color: #ae0c00 !important;             /* Keep the Vermilion red font color */
-    border-color: #ae0c00 !important;      /* Ensure the border remains red */
+    color: #dc354599 !important;             /* Keep the Vermilion red font color */
+    border-color: #dc354599 !important;      /* Ensure the border remains red */
     transition: color 0.3s ease, transform 0.3s ease;
     opacity: 0.95;
     transform: scale(1.05);
