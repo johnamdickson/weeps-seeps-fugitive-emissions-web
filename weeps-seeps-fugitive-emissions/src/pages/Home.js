@@ -1,112 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
-import LoginModal from "../components/LoginModal";
-import { getAuth, onAuthStateChanged, getIdTokenResult, signOut } from "firebase/auth";
-import { useToast } from "../contexts/ToastContext";
+import React from 'react';
+import { Button, Container, Row, Col } from 'react-bootstrap';
+import './Home.css'; // Update your CSS file name accordingly
 
-const Home = () => {
-  const [showLogin, setShowLogin] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isSuperuser, setIsSuperuser] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  const [userDetails, setUserDetails] = useState(null);
-  const { showToast } = useToast();
-
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLoading(true);
-        setUserDetails({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-        });
-
-        user.getIdToken(true)
-          .then(() => getIdTokenResult(user))
-          .then((idTokenResult) => {
-            const claims = idTokenResult.claims;
-            console.log("Claims:", claims);
-
-            setIsAdmin(!!claims.admin);
-            setIsSuperuser(!!claims.superuser);
-
-            setMessage(claims.admin ? 'You are an admin!' : 'You are not an admin.');
-          })
-          .catch((error) => {
-            console.error('Error fetching ID token result:', error);
-            setMessage('Error checking admin status.');
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      } else {
-        setIsAdmin(false);
-        setIsSuperuser(false);
-        setMessage('No user logged in.');
-        setUserDetails(null);
-        setLoading(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const handleLogout = () => {
-    const auth = getAuth();
-    signOut(auth)
-      .then(() => {
-        showToast("Thank you for using the Weeps, Seeps and Fugitive Emissions Monitoring Tool.", "success", "Logout Successful");
-      })
-      .catch((error) => {
-        console.error("Error signing out:", error);
-        showToast("Logout failed. Please try again.", "danger");
-      });
-  };
-
+const HomePage = () => {
   return (
-    <Container className="text-center mt-5 text-white">
-      <h1>Welcome to Weeps, Seeps & Fugitive Emissions</h1>
-      <p>{userDetails ? "You're logged in!" : "Please log in to continue"}</p>
+    <div className="home-page">
+        <Container fluid className="text-white d-inline-flex mt-5 me-lg-5 p-4 justify-content-end">
+          <Row className="justify-content-end">    
+            <Col className="me-lg-5" lg="9" sm="12">
+            <Container fluid>
+            <Row className="justify-content-end me-lg-5">    
+            <Col className="content-box me-lg-5 mx-auto" lg="6" sm="10">
+             <h1 className="display-5 fw-bold">Welcome to the<br />Emissions Monitoring Tool</h1>
+          <p className="lead">
+            Your one stop shop to manage all aspects of fugitive emissions monitoring on your facility. 
+            Select from one of the options below to continue.
+          </p>
+          <div className="button-group mt-4">
+            <Button variant="danger" className="me-3">Join Now</Button>
+            <Button variant="light">Log In</Button>
+          </div>
+          </Col> 
+          </Row>
+          </Container>
+          </Col> 
+          </Row>
 
-      {!userDetails && (
-        <Button variant="primary" onClick={() => setShowLogin(true)}>
-          Login
-        </Button>
-      )}
-
-      {userDetails && (
-        <Button variant="danger" onClick={handleLogout}>
-          Logout
-        </Button>
-      )}
-
-      <LoginModal show={showLogin} onHide={() => setShowLogin(false)} />
-
-      <div className="mt-3">
-        {loading ? (
-          <p>Checking admin status...</p>
-        ) : (
-          <>
-            <p>{message}</p>
-            {isAdmin && <p className="text-info">Admin privileges detected.</p>}
-            {isSuperuser && <p className="text-warning">Superuser privileges detected.</p>}
-          </>
-        )}
+        </Container>
       </div>
-
-      {userDetails && (
-        <div className="mt-3">
-          <h5>User Details:</h5>
-          <p><strong>UID:</strong> {userDetails.uid}</p>
-          <p><strong>Email:</strong> {userDetails.email}</p>
-          <p><strong>Display Name:</strong> {userDetails.displayName || 'N/A'}</p>
-        </div>
-      )}
-    </Container>
   );
 };
 
-export default Home;
+export default HomePage;

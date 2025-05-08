@@ -1,0 +1,7 @@
+  
+  .content-box {
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.6); /* semi-transparent box */
+    border-radius: 10px;
+  }
+  
