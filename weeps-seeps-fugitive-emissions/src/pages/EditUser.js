@@ -2,39 +2,59 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Collapse, Button, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { httpsCallable } from "firebase/functions";
-import { auth, functions } from "../firebase/firebase"; // ✅ import from shared instance
+import { auth, functions, storage } from "../firebase/firebase";
 import "./EditUser.css";
+import { useAuth } from "../contexts/AuthContext";
+import EditUserModal from "../components/EditUserModal";
+
+
 
 const EditUser = () => {
+  const { loading } = useAuth();
   const [users, setUsers] = useState([]);
   const [expandedUid, setExpandedUid] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");
   const [sortField, setSortField] = useState("lastLogin");
   const [sortDirection, setSortDirection] = useState("desc");
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
       const user = auth.currentUser;
-      if (!user) {
-        console.warn("User not signed in. Cannot fetch users.");
-        return;
-      }
-
+      if (!user) return;
+  
       try {
-        await user.getIdToken(true); // Force token refresh
-
-        const listUsers = httpsCallable(functions, "listUsers");
-        const result = await listUsers();
-        setUsers(result.data.users);
+        const token = await user.getIdToken();
+  
+        const response = await fetch(
+          "https://listusers-118529299623.us-central1.run.app",
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        setUsers(data.users);
       } catch (error) {
         console.error("Error fetching users:", error.message);
       }
     };
-
+  
     fetchUsers();
   }, []);
+  
+
 
   const toggleSort = (field) => {
     if (sortField === field) {
@@ -77,6 +97,62 @@ const EditUser = () => {
 
   const formatDate = (dateStr) => (dateStr ? new Date(dateStr).toLocaleString() : "Never");
 
+  const handleModalClose = () => {
+    setSelectedUser(null);
+    setShowModal(false);
+  };
+
+
+  const handleSave = async (updatedUser) => {
+    try {
+      let photoURL = updatedUser.photoURL || null;
+  
+      if (updatedUser.profileImage) {
+        // Upload image to Firebase Storage
+        const fileRef = ref(storage, `profilePictures/${updatedUser.uid}`);
+        await uploadBytes(fileRef, updatedUser.profileImage);
+        photoURL = await getDownloadURL(fileRef);
+      }
+  
+      const response = await fetch(
+        "https://us-central1-weeps-seeps-fugitive-emissions.cloudfunctions.net/updateUser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: updatedUser.uid,
+            displayName: updatedUser.displayName,
+            email: updatedUser.email,
+            roles: updatedUser.roles,
+            photoURL,
+          }),
+        }
+      );
+  
+      const result = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(result.error || "Unknown error");
+      }
+  
+      console.log("User updated successfully:", result);
+      setShowModal(false); // Close modal on success
+      // Optionally: refresh user list or show toast
+    } catch (error) {
+      console.error("Failed to update user:", error.message);
+      // Optionally: show toast/alert here
+    }
+  };
+  
+  
+
+  const handleDelete = async (uid) => {
+    console.log("Deleting user...", uid);
+    // TODO: Call deleteUser Firebase function
+  };
+
   return (
     <div className="container mt-4 text-light">
       <h2>Edit Users</h2>
@@ -96,10 +172,10 @@ const EditUser = () => {
             onChange={(e) => setSelectedRole(e.target.value)}
           >
             <option value="all">All Roles</option>
-            <option value="admin">Admin</option>
             <option value="superuser">Superuser</option>
-            <option value="viewer">Viewer</option>
+            <option value="admin">Admin</option>
             <option value="operator">Operator</option>
+            <option value="viewer">Viewer</option>
           </Form.Select>
         </Col>
       </Row>
@@ -157,7 +233,10 @@ const EditUser = () => {
                           <p><strong>Last Login:</strong> {formatDate(user.lastSignInTime)}</p>
                           <Button
                             variant="primary"
-                            onClick={() => navigate(`/admin/edit-user/${user.uid}`)}
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setShowModal(true);
+                            }}
                           >
                             Edit User
                           </Button>
@@ -171,6 +250,15 @@ const EditUser = () => {
           </tbody>
         </table>
       </div>
+
+      <EditUserModal
+        show={showModal}
+        onHide={handleModalClose}
+        user={selectedUser}
+        onSave={handleSave}
+        onDelete={handleDelete}
+        disableDelete={!!selectedUser?.customClaims?.superuser}
+      />
     </div>
   );
 };
