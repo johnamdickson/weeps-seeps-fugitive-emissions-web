@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
       if (user) {
         const tokenResult = await getIdTokenResult(user, true); // force refresh
         setUser(user);
+        console.log(user)
         setClaims(tokenResult.claims);
       } else {
         setUser(null);
@@ -31,8 +32,13 @@ export const AuthProvider = ({ children }) => {
     user,
     isAdmin: !!claims.admin,
     isSuperuser: !!claims.superuser,
+    isViewer: !!claims.viewer,
+    isOperator: !!claims.operator,
+    authTime: claims?.auth_time ? new Date(claims.auth_time * 1000) : null,
     loading,
+    claims,
   };
+  
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
