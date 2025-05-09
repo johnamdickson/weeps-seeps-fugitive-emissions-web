@@ -2,12 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
+import EditUser from "./pages/EditUser";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext'; // ⬅️ Import ToastProvider
 import Debug from "./pages/Debug";
 import LoadingOverlay from "./components/LoadingOverlay";
 import SessionInfoBar from "./components/SessionInfoBar";
+import SuperuserRoute from "./components/SuperuserRoute";
 
 function App() {
   return (
@@ -21,6 +23,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/debug" element={<Debug />} />
+            <Route path="/admin/edit-user" element={
+              <SuperuserRoute>
+                <EditUser/>
+                </SuperuserRoute>
+              } />
           </Routes>
         </Router>
       </ToastProvider>
