@@ -54,7 +54,7 @@ const ProfileModal = ({ show, onHide }) => {
     setUploading(true);
     try {
       const storage = getStorage();
-      const fileRef = ref(storage, `avatars/${user.uid}.jpg`);
+      const fileRef = ref(storage, `profile-photos/${user.uid}.jpg`);
       await uploadBytes(fileRef, file);
       const downloadURL = await getDownloadURL(fileRef);
       await updateProfile(user, { photoURL: downloadURL });
@@ -68,19 +68,19 @@ const ProfileModal = ({ show, onHide }) => {
     }
   };
 
-  const handleDeleteAvatar = async () => {
+  const handleDeleteProfilePhoto = async () => {
     if (!user || !user.photoURL) return;
     setDeleting(true);
     try {
       const storage = getStorage();
-      const fileRef = ref(storage, `avatars/${user.uid}.jpg`);
+      const fileRef = ref(storage, `profile-photos/${user.uid}.jpg`);
       await deleteObject(fileRef); // delete from storage
       await updateProfile(user, { photoURL: null }); // clear from auth
       setPhotoURL('');
-      showToast("Avatar deleted successfully.", "success", "Image Removed");
+      showToast("Profile photo deleted successfully.", "success", "Image Removed");
     } catch (err) {
-      console.error("Delete avatar error:", err);
-      showToast("Failed to delete avatar.", "danger", "Deletion Failed");
+      console.error("Delete profile photo error:", err);
+      showToast("Failed to delete profile photo.", "danger", "Deletion Failed");
     } finally {
       setDeleting(false);
     }
@@ -158,10 +158,10 @@ const ProfileModal = ({ show, onHide }) => {
             {photoURL && (
               <Button
                 variant="outline-danger"
-                onClick={handleDeleteAvatar}
+                onClick={handleDeleteProfilePhoto}
                 disabled={deleting}
               >
-                {deleting ? <Spinner animation="border" size="sm" /> : "Delete Avatar"}
+                {deleting ? <Spinner animation="border" size="sm" /> : "Delete profile photo"}
               </Button>
             )}
           </div>
