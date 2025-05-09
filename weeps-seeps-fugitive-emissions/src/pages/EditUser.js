@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Collapse, Button, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { httpsCallable } from "firebase/functions";
 import { auth, functions, storage } from "../firebase/firebase";
 import "./EditUser.css";
-import { useAuth } from "../contexts/AuthContext";
 import EditUserModal from "../components/EditUserModal";
-
-
+import { Spinner } from "react-bootstrap";
 
 const EditUser = () => {
-  const { loading } = useAuth();
   const [users, setUsers] = useState([]);
   const [expandedUid, setExpandedUid] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,26 +15,24 @@ const EditUser = () => {
   const [sortDirection, setSortDirection] = useState("desc");
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [usersLoading, setUsersLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setUsersLoading(true);
       const user = auth.currentUser;
       if (!user) return;
   
       try {
         const token = await user.getIdToken();
-  
-        const response = await fetch(
-          "https://listusers-118529299623.us-central1.run.app",
-          {
-            method: "GET",
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch("https://listusers-118529299623.us-central1.run.app", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
   
         if (!response.ok) {
           throw new Error(`Server error: ${response.status}`);
@@ -48,11 +42,14 @@ const EditUser = () => {
         setUsers(data.users);
       } catch (error) {
         console.error("Error fetching users:", error.message);
+      } finally {
+        setUsersLoading(false); // ✅ Prevent infinite loop
       }
     };
   
     fetchUsers();
   }, []);
+  
   
 
 
@@ -152,6 +149,15 @@ const EditUser = () => {
     console.log("Deleting user...", uid);
     // TODO: Call deleteUser Firebase function
   };
+
+  if (usersLoading) {
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: "60vh" }}>
+        <Spinner animation="border" variant="light" role="status" />
+        <div className="mt-3 text-light">Loading users...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-4 text-light">
