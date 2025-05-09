@@ -1,0 +1,13 @@
+.user-table-body {
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+  
+  .user-table-header th.no-border-right {
+    border-right: none;
+  }
+  
+  .user-table-header th.no-border-left {
+    border-left: none;
+  }
+  

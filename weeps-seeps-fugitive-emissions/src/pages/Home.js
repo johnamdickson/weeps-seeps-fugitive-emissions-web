@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
+import { useEffect } from "react";
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import './Home.css'; // Update your CSS file name accordingly
 import LoginModal from '../components/LoginModal';
+import { useToast } from "../contexts/ToastContext";
+
 
 const HomePage = () => {
+  const { showToast } = useToast();
   const [showLogin, setShowLogin] = useState(false);
+  useEffect(() => {
+    const reason = sessionStorage.getItem("redirectToast");
+    if (reason === "superuser-denied") {
+      showToast(
+        "Access denied.",
+        "warning",
+        "uperuser permissions are required to edit users."
+      );
+      sessionStorage.removeItem("redirectToast");
+    }
+  }, [showToast]);
   return (
     <div className="home-page">
         <Container fluid className="text-white d-inline-flex mt-5 p-4 justify-content-end">

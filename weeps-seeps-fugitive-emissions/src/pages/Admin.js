@@ -135,7 +135,11 @@ const AdminPage = () => {
                 <Card.Body>
                   <Card.Title>Edit User</Card.Title>
                   <Card.Text>Edit details and roles of existing users.</Card.Text>
-                  <Button variant="warning" className="btn-admin">Edit User</Button>
+                  <Button 
+                  variant="warning" 
+                  className="btn-admin"
+                  onClick={() => navigate("/admin/edit-user")}
+                  >Edit User</Button>
                 </Card.Body>
               </Card>
             </Col>
