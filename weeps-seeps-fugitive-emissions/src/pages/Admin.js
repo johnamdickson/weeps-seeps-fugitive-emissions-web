@@ -41,14 +41,6 @@ const AdminPage = () => {
     }
   }, [isAdmin, isSuperuser, loading, navigate]);
 
-  if (loading) {
-    return (
-      <div className="text-center mt-5">
-        <Spinner animation="border" role="status" />
-        <p className="mt-2">Loading access rights...</p>
-      </div>
-    );
-  }
 
   if (!isAdmin && !isSuperuser) {
     return (
