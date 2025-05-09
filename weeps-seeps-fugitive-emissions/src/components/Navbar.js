@@ -166,7 +166,7 @@ const AppNavbar = () => {
                     style={{ cursor: "pointer" }}
                   >
                     <OverlayTrigger
-                      placement="bottom"
+                      placement="top"
                       overlay={<Tooltip id="avatar-tooltip">Open Profile</Tooltip>}
                     >
                       <img
