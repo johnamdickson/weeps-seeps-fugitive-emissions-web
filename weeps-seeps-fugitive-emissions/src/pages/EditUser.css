@@ -11,3 +11,53 @@
     border-left: none;
   }
   
+  .loading-container {
+    height: 60vh;
+  }
+  
+  .loading-text {
+    margin-top: 1rem;
+    color: white;
+  }
+  
+  .edit-users-container {
+    margin-top: 2rem;
+    color: white;
+  }
+  
+  .user-table-header th {
+    cursor: pointer;
+  }
+  
+  .user-detail-row {
+    padding: 1rem;
+  }
+  
+  .user-details-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .user-details-left {
+    flex: 1;
+    padding-right: 1rem;
+  }
+  
+  .user-profile-photo {
+    height: 100%;
+    max-height: 180px;
+    width: auto;
+    border-radius: 12px;
+    border: 2px solid #fff;
+    object-fit: cover;
+  }
+  
+
+  .profile-thumb {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }

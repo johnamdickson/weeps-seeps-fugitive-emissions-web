@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Collapse, Button, Form, Row, Col } from "react-bootstrap";
+import { Collapse, Button, Form, Row, Col, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { auth, functions, storage } from "../firebase/firebase";
-import "./EditUser.css";
+import { auth, functions } from "../firebase/firebase";
 import EditUserModal from "../components/EditUserModal";
-import { Spinner } from "react-bootstrap";
+import { useProfilePhoto } from "../hooks/useProfilePhoto";
+import "./EditUser.css";
 
 const EditUser = () => {
   const [users, setUsers] = useState([]);
@@ -17,13 +17,14 @@ const EditUser = () => {
   const [showModal, setShowModal] = useState(false);
   const [usersLoading, setUsersLoading] = useState(true);
   const navigate = useNavigate();
+  const { photoURL, fetchPhotoURL, uploadPhoto } = useProfilePhoto();
 
   useEffect(() => {
     const fetchUsers = async () => {
       setUsersLoading(true);
       const user = auth.currentUser;
       if (!user) return;
-  
+
       try {
         const token = await user.getIdToken();
         const response = await fetch("https://listusers-118529299623.us-central1.run.app", {
@@ -33,25 +34,34 @@ const EditUser = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (!response.ok) {
           throw new Error(`Server error: ${response.status}`);
         }
-  
+
         const data = await response.json();
-        setUsers(data.users);
+
+        const updatedUsers = await Promise.all(
+          data.users.map(async (u) => {
+            try {
+              const url = await fetchPhotoURL(u.uid);
+              return { ...u, profilePhoto: url };
+            } catch {
+              return { ...u, profilePhoto: null };
+            }
+          })
+        );
+
+        setUsers(updatedUsers);
       } catch (error) {
         console.error("Error fetching users:", error.message);
       } finally {
-        setUsersLoading(false); // ✅ Prevent infinite loop
+        setUsersLoading(false);
       }
     };
-  
+
     fetchUsers();
   }, []);
-  
-  
-
 
   const toggleSort = (field) => {
     if (sortField === field) {
@@ -99,18 +109,18 @@ const EditUser = () => {
     setShowModal(false);
   };
 
-
   const handleSave = async (updatedUser) => {
+    let finalPhotoURL = photoURL;
     try {
-      let photoURL = updatedUser.photoURL || null;
-  
       if (updatedUser.profileImage) {
-        // Upload image to Firebase Storage
-        const fileRef = ref(storage, `profilePictures/${updatedUser.uid}`);
-        await uploadBytes(fileRef, updatedUser.profileImage);
-        photoURL = await getDownloadURL(fileRef);
+        try {
+          finalPhotoURL = await uploadPhoto(updatedUser.uid, updatedUser.profileImage);
+        } catch (err) {
+          console.error("Failed to upload image:", err.message);
+          return;
+        }
       }
-  
+
       const response = await fetch(
         "https://us-central1-weeps-seeps-fugitive-emissions.cloudfunctions.net/updateUser",
         {
@@ -123,44 +133,40 @@ const EditUser = () => {
             displayName: updatedUser.displayName,
             email: updatedUser.email,
             roles: updatedUser.roles,
-            photoURL,
+            photoURL: finalPhotoURL,
           }),
         }
       );
-  
+
       const result = await response.json();
-  
+
       if (!response.ok) {
         throw new Error(result.error || "Unknown error");
       }
-  
+
       console.log("User updated successfully:", result);
-      setShowModal(false); // Close modal on success
-      // Optionally: refresh user list or show toast
+      setShowModal(false);
     } catch (error) {
       console.error("Failed to update user:", error.message);
-      // Optionally: show toast/alert here
     }
   };
-  
-  
 
   const handleDelete = async (uid) => {
     console.log("Deleting user...", uid);
-    // TODO: Call deleteUser Firebase function
+    // TODO: Implement delete function
   };
 
   if (usersLoading) {
     return (
-      <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: "60vh" }}>
+      <div className="d-flex flex-column justify-content-center align-items-center loading-container">
         <Spinner animation="border" variant="light" role="status" />
-        <div className="mt-3 text-light">Loading users...</div>
+        <div className="loading-text">Loading users...</div>
       </div>
     );
   }
 
   return (
-    <div className="container mt-4 text-light">
+    <div className="container edit-users-container col-lg-6 col-md-8">
       <h2>Edit Users</h2>
 
       <Row className="mb-3">
@@ -186,6 +192,7 @@ const EditUser = () => {
         </Col>
       </Row>
 
+      <div className="user-table-body">
       <table className="user-table-header table table-dark table-bordered table-hover mb-0">
         <colgroup>
           <col style={{ width: "auto" }} />
@@ -202,10 +209,8 @@ const EditUser = () => {
           </tr>
         </thead>
       </table>
-
-      <div className="user-table-body">
         <table className="table table-dark table-bordered table-hover mb-0">
-          <colgroup>
+        <colgroup>
             <col style={{ width: "auto" }} />
             <col style={{ width: "250px" }} />
           </colgroup>
@@ -223,29 +228,44 @@ const EditUser = () => {
                     onClick={() => setExpandedUid((prev) => (prev === user.uid ? null : user.uid))}
                     style={{ cursor: "pointer" }}
                   >
-                    <td>
-                      {user.displayName || user.email || "Unnamed User"}
-                      {isExpanded ? " ▲" : " ▼"}
-                    </td>
-                    <td>{formatDate(user.lastSignInTime)}</td>
+<td className="d-flex align-items-center gap-2">
+  {user.profilePhoto && (
+    <img
+      src={user.profilePhoto}
+      alt="Profile"
+      className="profile-thumb"
+    />
+  )}
+  <span className="h5">{user.displayName || user.email || "Unnamed User"} </span>
+  <span className="ms-auto h6">{isExpanded ? "▲" : "▼"}</span>
+</td>                    <td>{formatDate(user.lastSignInTime)}</td>
                   </tr>
                   <tr>
                     <td colSpan={2} className="p-0">
                       <Collapse in={isExpanded}>
-                        <div className="p-3 bg-secondary border-top">
-                          <p><strong>Email:</strong> {user.email || "N/A"}</p>
-                          <p><strong>UID:</strong> {user.uid}</p>
-                          <p><strong>Roles:</strong> {roles}</p>
-                          <p><strong>Last Login:</strong> {formatDate(user.lastSignInTime)}</p>
-                          <Button
-                            variant="primary"
-                            onClick={() => {
-                              setSelectedUser(user);
-                              setShowModal(true);
-                            }}
-                          >
-                            Edit User
-                          </Button>
+                        <div className="bg-secondary border-top user-details-flex user-detail-row">
+                          <div className="user-details-left">
+                            <p><strong>Email:</strong> {user.email || "N/A"}</p>
+                            <p><strong>UID:</strong> {user.uid}</p>
+                            <p><strong>Roles:</strong> {roles}</p>
+                            <p><strong>Last Login:</strong> {formatDate(user.lastSignInTime)}</p>
+                            <Button
+                              variant="primary"
+                              onClick={() => {
+                                setSelectedUser(user);
+                                setShowModal(true);
+                              }}
+                            >
+                              Edit User
+                            </Button>
+                          </div>
+                          {user.profilePhoto && (
+                            <img
+                              src={user.profilePhoto}
+                              alt="Profile"
+                              className="user-profile-photo"
+                            />
+                          )}
                         </div>
                       </Collapse>
                     </td>
