@@ -1,14 +1,22 @@
 .user-table-body {
-    max-height: 500px;
+    max-height: 65vh;
     overflow-y: scroll;
   }
-  
-  .user-table-header th.no-border-right {
-    border-right: none;
+  .user-table th {
+    background: rgba(220,53,69,0.98); ;
+    position: sticky;
+    top: -5px; /* Don't forget this, required for the stickiness */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
   }
-  
-  .user-table-header th.no-border-left {
+  .user-table th {
+    border-top: none;
+  }
+
+  .user-table th.no-border-left {
     border-left: none;
+  }
+  .user-table{
+    border-collapse: collapse; 
   }
   
   .loading-container {
@@ -25,7 +33,7 @@
     color: white;
   }
   
-  .user-table-header th {
+  .user-table th {
     cursor: pointer;
   }
   
