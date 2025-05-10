@@ -5,6 +5,23 @@ import { auth, functions } from "../firebase/firebase";
 import EditUserModal from "../components/EditUserModal";
 import { useProfilePhoto } from "../hooks/useProfilePhoto";
 import "./EditUser.css";
+import { useToast } from "../contexts/ToastContext";
+
+const generateRoleChanges = (originalRoles = {}, updatedRoles = {}) => {
+  const allKeys = new Set([...Object.keys(originalRoles), ...Object.keys(updatedRoles)]);
+  const changes = [];
+
+  allKeys.forEach((key) => {
+    const original = !!originalRoles[key];
+    const updated = !!updatedRoles[key];
+
+    if (original !== updated) {
+      changes.push(`${key} ${updated ? "granted" : "revoked"}`);
+    }
+  });
+
+  return changes;
+};
 
 const EditUser = () => {
   const [users, setUsers] = useState([]);
@@ -18,50 +35,96 @@ const EditUser = () => {
   const [usersLoading, setUsersLoading] = useState(true);
   const navigate = useNavigate();
   const { photoURL, fetchPhotoURL, uploadPhoto } = useProfilePhoto();
+  const { showToast } = useToast();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setUsersLoading(true);
-      const user = auth.currentUser;
-      if (!user) return;
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     setUsersLoading(true);
+  //     const user = auth.currentUser;
+  //     if (!user) return;
 
-      try {
-        const token = await user.getIdToken();
-        const response = await fetch("https://listusers-118529299623.us-central1.run.app", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+  //     try {
+  //       const token = await user.getIdToken();
+  //       const response = await fetch("https://listusers-118529299623.us-central1.run.app", {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
 
-        if (!response.ok) {
-          throw new Error(`Server error: ${response.status}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`Server error: ${response.status}`);
+  //       }
 
-        const data = await response.json();
+  //       const data = await response.json();
 
-        const updatedUsers = await Promise.all(
-          data.users.map(async (u) => {
-            try {
-              const url = await fetchPhotoURL(u.uid);
-              return { ...u, profilePhoto: url };
-            } catch {
-              return { ...u, profilePhoto: null };
-            }
-          })
-        );
+  //       const updatedUsers = await Promise.all(
+  //         data.users.map(async (u) => {
+  //           try {
+  //             const url = await fetchPhotoURL(u.uid);
+  //             return { ...u, profilePhoto: url };
+  //           } catch {
+  //             return { ...u, profilePhoto: null };
+  //           }
+  //         })
+  //       );
 
-        setUsers(updatedUsers);
-      } catch (error) {
-        console.error("Error fetching users:", error.message);
-      } finally {
-        setUsersLoading(false);
+  //       setUsers(updatedUsers);
+  //     } catch (error) {
+  //       console.error("Error fetching users:", error.message);
+  //     } finally {
+  //       setUsersLoading(false);
+  //     }
+  //   };
+
+  //   fetchUsers();
+  // }, []);
+
+  const fetchUsers = async () => {
+    setUsersLoading(true);
+    const user = auth.currentUser;
+    if (!user) return;
+  
+    try {
+      const token = await user.getIdToken();
+      const response = await fetch("https://listusers-118529299623.us-central1.run.app", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
       }
-    };
-
+  
+      const data = await response.json();
+  
+      const updatedUsers = await Promise.all(
+        data.users.map(async (u) => {
+          try {
+            const url = await fetchPhotoURL(u.uid);
+            return { ...u, profilePhoto: url };
+          } catch {
+            return { ...u, profilePhoto: null };
+          }
+        })
+      );
+  
+      setUsers(updatedUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error.message);
+    } finally {
+      setUsersLoading(false);
+    }
+  };
+  
+  useEffect(() => {
     fetchUsers();
   }, []);
+  
 
   const toggleSort = (field) => {
     if (sortField === field) {
@@ -111,46 +174,70 @@ const EditUser = () => {
 
   const handleSave = async (updatedUser) => {
     let finalPhotoURL = photoURL;
+  
     try {
       if (updatedUser.profileImage) {
         try {
           finalPhotoURL = await uploadPhoto(updatedUser.uid, updatedUser.profileImage);
         } catch (err) {
-          console.error("Failed to upload image:", err.message);
+          showToast("Failed to upload profile photo", "danger", "Upload Error");
           return;
         }
       }
-
-      const response = await fetch(
-        "https://us-central1-weeps-seeps-fugitive-emissions.cloudfunctions.net/updateUser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            uid: updatedUser.uid,
-            displayName: updatedUser.displayName,
-            email: updatedUser.email,
-            roles: updatedUser.roles,
-            photoURL: finalPhotoURL,
-          }),
-        }
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Unknown error");
+  
+      const originalUser = users.find(u => u.uid === updatedUser.uid);
+      const changedFields = [];
+  
+      if (updatedUser.displayName !== originalUser.displayName) changedFields.push(`Display Name changed to: ${updatedUser.displayName}`);
+      if (updatedUser.email !== originalUser.email) changedFields.push(`Email address changed to: ${updatedUser.email}`);
+      const roleChanges = generateRoleChanges(originalUser.customClaims, updatedUser.roles);
+      if (roleChanges.length) {
+        changedFields.push(`Roles changed:(${roleChanges.join(", ")})`);
       }
-
-      console.log("User updated successfully:", result);
+            if (updatedUser.profileImage) changedFields.push("Profile photo changed");
+  
+      const response = await fetch("https://us-central1-weeps-seeps-fugitive-emissions.cloudfunctions.net/updateUser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: updatedUser.uid,
+          displayName: updatedUser.displayName,
+          email: updatedUser.email,
+          roles: updatedUser.roles,
+          photoURL: finalPhotoURL,
+        }),
+      });
+  
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Unknown error");
+  
       setShowModal(false);
+      setExpandedUid(null);
+      fetchUsers();
+  
+      showToast(
+        changedFields.length
+          ? changedFields.join(", ")
+          : "No changes were made",
+         changedFields.length
+         ? "success"
+         : "info",
+         changedFields.length
+         ? <>
+         <span className="material-icons toast-icon me-3">thumb_up</span>
+         {originalUser.displayName} Updated
+       </>
+         :<>
+         <span className="material-icons toast-icon me-3">info</span>
+         {originalUser.displayName}
+       </>
+      );
     } catch (error) {
       console.error("Failed to update user:", error.message);
+      showToast(error.message, "danger", "Update Failed");
     }
   };
-
+  
   const handleDelete = async (uid) => {
     console.log("Deleting user...", uid);
     // TODO: Implement delete function
@@ -193,27 +280,21 @@ const EditUser = () => {
       </Row>
 
       <div className="user-table-body">
-      <table className="user-table-header table table-dark table-bordered table-hover mb-0">
+      <table className="user-table table table-dark table-bordered table-hover mb-0 sticky">
         <colgroup>
           <col style={{ width: "auto" }} />
           <col style={{ width: "250px" }} />
         </colgroup>
         <thead>
           <tr>
-            <th onClick={() => toggleSort("name")} className="no-border-right">
+            <th onClick={() => toggleSort("name")} className="h4 p-3">
               User {sortField === "name" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
             </th>
-            <th onClick={() => toggleSort("lastLogin")} className="no-border-left">
+            <th onClick={() => toggleSort("lastLogin")} className="h4 p-3">
               Last Login {sortField === "lastLogin" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
             </th>
           </tr>
         </thead>
-      </table>
-        <table className="table table-dark table-bordered table-hover mb-0">
-        <colgroup>
-            <col style={{ width: "auto" }} />
-            <col style={{ width: "250px" }} />
-          </colgroup>
           <tbody>
             {sortedUsers.map((user) => {
               const isExpanded = expandedUid === user.uid;
