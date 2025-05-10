@@ -1,4 +1,3 @@
-// EditUserModal.js
 import React, { useState, useEffect } from "react";
 import {
   Modal,
@@ -9,6 +8,7 @@ import {
   Image,
   Alert,
 } from "react-bootstrap";
+import './Modal.css';
 
 const defaultRoles = ["superuser", "admin", "operator", "viewer"];
 
@@ -24,7 +24,7 @@ const EditUserModal = ({ show, onHide, user, onSave, onDelete, disableDelete }) 
       setDisplayName(user.displayName || "");
       setEmail(user.email || "");
       setRoles({ ...user.customClaims });
-      setPreviewUrl(user.photoURL || null);
+      setPreviewUrl(null); // Reset preview when modal opens
     }
   }, [user]);
 
@@ -59,8 +59,15 @@ const EditUserModal = ({ show, onHide, user, onSave, onDelete, disableDelete }) 
     }
   };
 
+  const displayImage =
+  previewUrl ||
+  user?.profilePhoto || // safe access
+  user?.photoURL || // safe access
+  "https://via.placeholder.com/150";
+
+
   return (
-    <Modal show={show} onHide={onHide} size="lg" centered>
+    <Modal show={show} onHide={onHide} size="lg" centered className="custom-modal">
       <Modal.Header closeButton>
         <Modal.Title>Edit User</Modal.Title>
       </Modal.Header>
@@ -104,11 +111,11 @@ const EditUserModal = ({ show, onHide, user, onSave, onDelete, disableDelete }) 
 
             <Col md={4} className="text-center">
               <Image
-                src={previewUrl || "https://via.placeholder.com/150"}
-                roundedCircle
+                src={displayImage}
+                rounded
                 fluid
                 alt="Profile Preview"
-                className="mb-3"
+                className="mb-3 edit-img"
               />
               <Form.Group controlId="profileImage">
                 <Form.Label>Profile Photo</Form.Label>
@@ -119,7 +126,7 @@ const EditUserModal = ({ show, onHide, user, onSave, onDelete, disableDelete }) 
 
           <Row>
             <Col>
-              <Alert variant="secondary" className="mt-3">
+              <Alert variant="primary" className="mt-3">
                 <div><strong>UID:</strong> {user?.uid}</div>
                 <div><strong>Last Login:</strong> {user?.lastSignInTime || "Never"}</div>
               </Alert>
@@ -136,7 +143,6 @@ const EditUserModal = ({ show, onHide, user, onSave, onDelete, disableDelete }) 
         >
           Delete User
         </Button>
-
         <Button variant="secondary" onClick={onHide}>
           Cancel
         </Button>

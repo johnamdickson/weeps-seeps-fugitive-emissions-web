@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebase'; // Make sure this is the correct import for your Firebase config
-import './LoginModal.css';
+import './Modal.css';
 import { useToast } from "../contexts/ToastContext";
 
 const LoginModal = ({ show, onHide }) => {
@@ -46,7 +46,7 @@ const LoginModal = ({ show, onHide }) => {
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered animation="true" className="login-modal">
+    <Modal show={show} onHide={onHide} centered animation="true" className="custom-modal">
       <Modal.Header closeButton>
         <Modal.Title>Login</Modal.Title>
       </Modal.Header>
@@ -75,7 +75,7 @@ const LoginModal = ({ show, onHide }) => {
           </Form.Group>
 
           <Button variant="primary" type="submit" className="btn-login">
-            <span class="material-icons login-modal-icon">login</span>
+            <span class="material-icons custom-modal-icon">login</span>
             Login
             </Button>
         </Form>

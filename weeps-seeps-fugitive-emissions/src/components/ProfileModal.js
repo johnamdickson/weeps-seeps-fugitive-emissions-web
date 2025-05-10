@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, ListGroup, Form, Spinner, Image } from 'react-bootstrap';
+import { Modal, Button, ListGroup, Form, Spinner, Image, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import './LoginModal.css';
+import './Modal.css';
 import { useToast } from '../contexts/ToastContext';
 import placeholderImage from '../assets/avatar.jpg'; // adjust path if needed
 
@@ -89,7 +89,7 @@ const ProfileModal = ({ show, onHide }) => {
   if (!user) return null;
 
   return (
-    <Modal show={show} onHide={onHide} centered animation="true" className="login-modal">
+    <Modal show={show} onHide={onHide} centered animation="true" className="custom-modal">
       <Modal.Header closeButton>
         <Modal.Title>User Profile</Modal.Title>
       </Modal.Header>
@@ -116,17 +116,17 @@ const ProfileModal = ({ show, onHide }) => {
 </div>
 
         {/* User Info */}
-        <ListGroup variant="flush" className="text-white fs-6 mb-3">
-          <ListGroup.Item className="bg-transparent border-0">
-            <strong>Email:</strong> {user.email}
-          </ListGroup.Item>
-          <ListGroup.Item className="bg-transparent border-0">
-            <strong>User ID:</strong> {user.uid}
-          </ListGroup.Item>
-          <ListGroup.Item className="bg-transparent border-0">
-            <strong>Role:</strong> {isSuperuser ? "Superuser" : isAdmin ? "Admin" : "Standard User"}
-          </ListGroup.Item>
-        </ListGroup>
+
+        <Alert variant="primary" className="mt-3">
+        <div><strong>UID:</strong> {user?.uid}</div>
+        <div><strong>Email:</strong> {user.email}</div>
+        <div><strong>User ID:</strong> {user.uid}</div>
+        <div><strong>Role:</strong> {isSuperuser ? "Superuser" : isAdmin ? "Admin" : "Standard User"}
+        </div>
+ 
+              </Alert>
+
+
 
         {/* Editable Fields */}
         <Form>
@@ -149,12 +149,10 @@ const ProfileModal = ({ show, onHide }) => {
               disabled={uploading}
             />
             {uploading && <Spinner animation="border" size="sm" className="mt-2" />}
-          </Form.Group>
+          </Form.Group> 
 
           <div className="d-flex gap-2 flex-wrap">
-            <Button variant="primary" onClick={handleSave} disabled={saving}>
-              {saving ? <Spinner animation="border" size="sm" /> : "Save Changes"}
-            </Button>
+
             {photoURL && (
               <Button
                 variant="outline-danger"
@@ -169,9 +167,13 @@ const ProfileModal = ({ show, onHide }) => {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide} disabled={saving || uploading || deleting}>
-          Close
+                <Button variant="secondary" onClick={onHide} disabled={saving || uploading || deleting}>
+          Cancel
+        
         </Button>
+        <Button variant="primary" onClick={handleSave} disabled={saving}>
+              {saving ? <Spinner animation="border" size="sm" /> : "Save Changes"}
+            </Button>
       </Modal.Footer>
     </Modal>
   );

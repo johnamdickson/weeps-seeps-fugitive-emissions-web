@@ -1,63 +1,59 @@
 /* Apply background color and white text to the modal */
-.login-modal .modal-content {
-    background-color: #dc354599;  /* Background color */
+.custom-modal .modal-content {
+    background-color: rgba(220,53,69,0.95);  /* Background color */
     color: white;               /* White text */
   }
 
-  .login-modal-icon  {
+  .custom-modal-icon  {
     font-size:2rem !important;
   }
   
   /* Optional: Customize the modal header */
-  .login-modal .modal-header {
+  .custom-modal .modal-header {
     /* background-color: #dc354599;  Background color */
     color: white;               /* White text */
     border-bottom: 2px solid white;  /* Optional border for better visibility */
   }
   
   /* Optional: Customize the modal footer */
-  .login-modal .modal-footer {
+  .custom-modal .modal-footer {
     background-color: #dc354599;  /* Background color */
     color: white;               /* White text */
     border-top: 2px solid white;  /* Optional border for better visibility */
   }
   
   /* Style buttons in the modal */
-  .login-modal .modal-footer button {
+  .custom-modal button {
     background-color: white;  /* Button background */
     color: #dc354599;           /* Button text color */
     border: none;             /* Remove border */
   }
   
-  .login-modal .modal-footer button:hover {
+  .custom-modal button:hover {
     background-color: #f1f1f1;  /* Slight hover effect */
     color: #dc354599;             /* Maintain button text color */
     
   }
   
   
-.login-modal .modal-header .btn-close {
+.custom-modal .modal-header .btn-close {
     background-color: transparent; 
   }
   
 
-  .login-modal .modal-header .btn-close:hover {
+  .custom-modal .modal-header .btn-close:hover {
     background-color:#dc354599 !important;  /* Light gray background on hover */
     opacity: 0.7;
   }
 
-  .login-modal .modal-header .btn-close {
+  .custom-modal .modal-header .btn-close {
     background-image: url("data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27><path d=%27M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414%27/></svg>");
     opacity: 1;
 }
 
 /* Style the Login button */
-.login-modal .modal-body .btn-login {
-    background-color: rgb(255, 255, 255) !important;  /* White background */
-    color: #dc354599 !important;           /* Vermilion red font color */
-    border: 2px solid #b1473f !important;  /* Optional: Red border for the button */
+.custom-modal .modal-body .btn-login {
     font-weight: bold;   
-    font-size:1.2rem;               /* Optional: Make the text bold */
     padding: 10px 20px;                 /* Adjust padding to make the button larger */
     width: auto;
     display: flex;
@@ -67,11 +63,17 @@
   }
   
   /* Hover effect for the Login button */
-  .login-modal .modal-body .btn-login:hover {
+  .custom-modal .modal-body .btn-login:hover {
     background-color: #c9c4c4 !important;  /* Light gray background on hover */
     color: #dc354599 !important;             /* Keep the Vermilion red font color */
     border-color: #dc354599 !important;      /* Ensure the border remains red */
     transition: color 0.3s ease, transform 0.3s ease;
     opacity: 0.95;
     transform: scale(1.05);
+  }
+
+  .edit-img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
   }
